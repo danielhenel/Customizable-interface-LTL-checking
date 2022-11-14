@@ -1,4 +1,4 @@
-# Interactive LTL Checker in Python
+# Interactive LTL Checker in Python TEST
 
 Process Conformance Checking - Project Group 2
 
