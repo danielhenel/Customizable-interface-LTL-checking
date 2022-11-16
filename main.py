@@ -23,9 +23,9 @@ app = Flask(__name__)
 def upload():
     if request.method == 'POST':
         file = request.files['file']
-        if file and allowed_file(file.filename):
+        if file and allowed_file(file.filename): # check whether file has right format
             filename = secure_filename(file.filename)
-            save_location = os.path.join('uploads', filename) # event log should be saved in uploads file for alter use
+            save_location = os.path.join('uploads', filename) # event log should be saved in uploads file for later use
             file.save(save_location)
             return ('uploaded')
         else:
