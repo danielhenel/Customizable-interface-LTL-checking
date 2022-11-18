@@ -1,0 +1,45 @@
+body, html {
+  height: 100%;
+}
+
+#left-col, #right-col{
+    background-color: #1B509F;
+}
+
+#central-col{
+    background-color: #498ECE;
+}
+
+.card{
+  width: 40rem;
+  height: 30rem;
+  background-color: #498ECE;
+  border: 1px solid #000000;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 30px;
+}
+
+#cloud-image{
+  width: 20rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#file_field{
+  background-color: rgb(109, 105, 105);
+  color: rgb(255, 255, 255);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 30px;
+  width: 30em;
+}
+
+#file_field::file-selector-button {
+  background-color: rgb(70, 68, 68);
+  color: rgb(255, 255, 255);
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 30px;
+}
