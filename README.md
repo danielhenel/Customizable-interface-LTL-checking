@@ -22,7 +22,7 @@ drop certain columns from the raw data but also filter entries deviating from Li
 * Build a docker image<br>
 `docker build -t ltl_checker .`
 * Run the docker image<br>
-`docker run -p 5000:5000 -d checker`
+`docker run -p 5000:5000 -d ltl_checker`
 * Open the application in your browser<br>
 `localhost:500`
 
