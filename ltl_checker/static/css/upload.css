@@ -10,7 +10,7 @@ body, html {
     background-color: #498ECE;
 }
 
-.card{
+#uploadArea{
   width: 40rem;
   height: 30rem;
   background-color: #498ECE;
@@ -26,7 +26,7 @@ body, html {
   margin-right: auto;
 }
 
-#file_field{
+#fileField{
   background-color: rgb(109, 105, 105);
   color: rgb(255, 255, 255);
   display: block;
@@ -36,7 +36,7 @@ body, html {
   width: 30em;
 }
 
-#file_field::file-selector-button {
+#fileField::file-selector-button {
   background-color: rgb(70, 68, 68);
   color: rgb(255, 255, 255);
   padding: 0.5em;
