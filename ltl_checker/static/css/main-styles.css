@@ -1,0 +1,33 @@
+body, html {
+    height: 100%;
+}
+  
+#leftCol, #rightCol{
+    background-color: #1B509F;
+    display: flex;
+    justify-content: center;
+}
+  
+#central-col{
+    background-color: #498ECE;
+}
+  
+#nextButtonImg, #previousButtonImg{
+    background-color: transparent;
+    border: none;
+    width: 90%;
+    max-height: 15em;
+  }
+  
+#nextButton, #previousButton{
+    display: block;
+    background-color: transparent;
+    border: none;
+    /* center the button */
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    visibility: hidden;
+}
