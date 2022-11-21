@@ -2,8 +2,10 @@ body, html {
   height: 100%;
 }
 
-#left-col, #right-col{
+#leftCol, #rightCol{
     background-color: #1B509F;
+    display: flex;
+    justify-content: center;
 }
 
 #central-col{
@@ -33,7 +35,7 @@ body, html {
   margin-left: auto;
   margin-right: auto;
   border-radius: 30px;
-  width: 30em;
+  width: 90%;
 }
 
 #fileField::file-selector-button {
@@ -42,4 +44,24 @@ body, html {
   padding: 0.5em;
   border: thin solid grey;
   border-radius: 30px;
+}
+
+#nextButtonImg{
+  background-color: transparent;
+  border: none;
+  width: 90%;
+  max-height: 15em;
+}
+
+#nextButton{
+  display: block;
+  background-color: transparent;
+  border: none;
+  /* center the button */
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  visibility: hidden;
 }
