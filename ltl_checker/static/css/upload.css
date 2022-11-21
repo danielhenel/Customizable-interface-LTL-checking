@@ -2,15 +2,17 @@ body, html {
   height: 100%;
 }
 
-#left-col, #right-col{
+#leftCol, #rightCol{
     background-color: #1B509F;
+    display: flex;
+    justify-content: center;
 }
 
 #central-col{
     background-color: #498ECE;
 }
 
-.card{
+#uploadArea{
   width: 40rem;
   height: 30rem;
   background-color: #498ECE;
@@ -26,20 +28,40 @@ body, html {
   margin-right: auto;
 }
 
-#file_field{
+#fileField{
   background-color: rgb(109, 105, 105);
   color: rgb(255, 255, 255);
   display: block;
   margin-left: auto;
   margin-right: auto;
   border-radius: 30px;
-  width: 30em;
+  width: 90%;
 }
 
-#file_field::file-selector-button {
+#fileField::file-selector-button {
   background-color: rgb(70, 68, 68);
   color: rgb(255, 255, 255);
   padding: 0.5em;
   border: thin solid grey;
   border-radius: 30px;
+}
+
+#nextButtonImg{
+  background-color: transparent;
+  border: none;
+  width: 90%;
+  max-height: 15em;
+}
+
+#nextButton{
+  display: block;
+  background-color: transparent;
+  border: none;
+  /* center the button */
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  visibility: hidden;
 }

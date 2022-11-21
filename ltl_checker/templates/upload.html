@@ -10,23 +10,27 @@
     <!-- Custom style -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/upload.css')}}">
 
-    <title>Hello, world!</title>
+    <title>LTL Checker</title>
   </head>
   <body>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-sm-2" id="left-col"></div>
+            <div class="col-sm-2" id="leftCol"></div>
             <div class="col-sm-8 d-flex justify-content-center vh-100 align-items-center" id="central-col">
-                <div class="card">
+                <div class="card" id="uploadArea">
                     <div class="card-body">
                          <form action="/upload" method="POST" enctype="multipart/form-data">
                             <img class="card-img-top" id="cloud-image" src="{{url_for('static', filename='images/cloud-black.png')}}" alt="Card image cap">
-                            <input type="file" id="file_field" name="file"> <br>                
+                            <input type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false"> <br>                
                         </form>                    
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2" id="left-col"></div>
+            <div class="col-sm-2" id="rightCol">
+              <button id="nextButton">
+                <img src="{{url_for('static', filename='images/next.png')}}" id="nextButtonImg">
+              </button>
+            </div>
           </div>
       </div>      
     <!--bootstrap scripts-->
