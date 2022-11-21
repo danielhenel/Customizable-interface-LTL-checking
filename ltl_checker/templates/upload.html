@@ -15,7 +15,7 @@
   <body>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-sm-2" id="left-col"></div>
+            <div class="col-sm-2" id="leftCol"></div>
             <div class="col-sm-8 d-flex justify-content-center vh-100 align-items-center" id="central-col">
                 <div class="card" id="uploadArea">
                     <div class="card-body">
@@ -26,7 +26,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2" id="left-col"></div>
+            <div class="col-sm-2" id="rightCol">
+              <button id="nextButton">
+                <img src="{{url_for('static', filename='images/next.png')}}" id="nextButtonImg">
+              </button>
+            </div>
           </div>
       </div>      
     <!--bootstrap scripts-->
