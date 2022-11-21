@@ -20,9 +20,13 @@ function changeCloudColor(){
     if (format == "csv" || format=="xes"){
         // green color when the file is in the required format
         image.src = "./static/images/cloud-green.png";
+        // user can go forward
+        document.getElementById("nextButton").style.visibility = "visible";
+        
     } else {
         // red color when the file is in the wrong format
         image.src = "./static/images/cloud-red.png";
+        document.getElementById("nextButton").style.visibility = "hidden";
         alert("The file should be in .csv or .xes format")
     }
 }
