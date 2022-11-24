@@ -31,6 +31,7 @@ function loadDataFromFile(){
                 // select columns row
                 selectColumnsItem = document.createElement("td")
                 selectList = document.createElement('select')
+                selectList.onchange = verifyRequiredColumns
 
                 caseID = document.createElement('option')
                 caseID.value = "caseID"
@@ -86,6 +87,49 @@ function loadDataFromFile(){
 
     dataTable.appendChild(header)
     dataTable.appendChild(body)
+
+    verifyRequiredColumns()
 }
 
 loadDataFromFile();
+
+function verifyRequiredColumns(){
+var requiredColumns = {
+    "caseID" : 0,
+    "activityName" : 0,
+    "timeStamp" : 0,
+    "resource" : 0
+}
+
+selectColumnsRow = document.getElementById("selectColumnsTable").firstChild.firstChild
+
+selectColumnsRow.childNodes.forEach((selectColumnsItem) => {
+selectList = selectColumnsItem.firstChild
+selected = selectList.value
+if (selected in requiredColumns){
+    requiredColumns[selected] += 1
+}
+});
+
+showNextButton = true
+
+Object.keys(requiredColumns).forEach((key) => {
+    label = document.getElementById(key)
+    if (requiredColumns[key] == 1){
+        label.style.color = "green"
+    }
+    else{
+        label.style.color = "red"
+        showNextButton = false
+    }
+});
+
+
+if (showNextButton){
+    document.getElementById("nextButton").style.visibility = "visible";
+}
+else{
+    document.getElementById("nextButton").style.visibility = "hidden";
+}
+
+}
