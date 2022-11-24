@@ -1,6 +1,6 @@
 function loadDataFromFile(){
+    document.getElementById("previousButton").style.visibility = "visible";
     dataTable = document.getElementById("data")
-
     var header = document.createElement('thead');
     var body = document.createElement('tbody')
     var selectColumnsRow = document.createElement('tr')
