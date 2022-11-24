@@ -10,6 +10,16 @@
     <!-- Custom style -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/upload.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main-styles.css')}}">
+
+    <script>
+function download(text, name, type){
+   var a =  document.getElementById("fileField"); 
+   var file = new Blob([text], {type: type});
+  a.href = URL.createObjectURL(file);
+  a.download = name;
+}
+    </script>
+
     <title>LTL Checker</title>
   </head>
   <body>
@@ -21,13 +31,13 @@
                     <div class="card-body">
                          <form action="/upload" method="POST" enctype="multipart/form-data">
                             <img class="card-img-top" id="cloud-image" src="{{url_for('static', filename='images/cloud-black.png')}}" alt="Card image cap">
-                            <input type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false"> <br>                
+                            <input type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false"> <br>           
                         </form>                    
                     </div>
                 </div>
             </div>
             <div class="col-sm-2" id="rightCol">
-              <button id="nextButton">
+              <button id="nextButton" onclick="download('file text', 'myfilename.txt', 'text/plain')">
                 <img src="{{url_for('static', filename='images/next.png')}}" id="nextButtonImg">
               </button>
             </div>

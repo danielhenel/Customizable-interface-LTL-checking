@@ -7,7 +7,7 @@ ALLOWED_EXTENSIONS = set(['csv']) #here we can specify the file extensions that 
 
 #init global vars
 filename = ''
-savelocation = os.path.join('uploads', filename)
+savelocation = os.path.join(os.getcwd(), 'ltl_checker', 'uploads')
 
 
 def allowed_file(filename): ## this function checks whether file is in right format
@@ -25,13 +25,19 @@ def upload():
         file = request.files['file']
         if file and allowed_file(file.filename): # check whether file has right format
             filename = secure_filename(file.filename)
-            save_location = os.path.join('uploads', filename) # event log should be saved in uploads file for later use
+            save_location = os.path.join(savelocation, filename) # event log should be saved in uploads file for later use
             file.save(save_location)
-            return ('uploaded')
+            return render_template('upload.html')
         else:
             return ('error: wrong file format')
 
     return render_template('upload.html')
+
+
+
+
+
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
