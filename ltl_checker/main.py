@@ -27,7 +27,7 @@ def upload():
             filename = secure_filename(file.filename)
             save_location = os.path.join(savelocation, filename) # event log should be saved in uploads file for later use
             file.save(save_location)
-            return render_template('upload.html')
+            return render_template('columns-selection.html')
         else:
             return ('error: wrong file format')
 
