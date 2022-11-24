@@ -1,27 +1,17 @@
 function loadDataFromFile(){
     dataTable = document.getElementById("data")
-    selectColumnsTable = document.getElementById("selectColumnsTable")
-    renameColumnsTable = document.getElementById("renameColumnsTable")
 
     var header = document.createElement('thead');
     var body = document.createElement('tbody')
+    var selectColumnsRow = document.createElement('tr')
+    var renameColumnsRow = document.createElement('tr')
     
-    for (var i = 0; i < 5; i++ ){ // for each row
+    for (var i = 0; i < 7; i++ ){ // for each row
         if (i == 0){ // the first row is the header
             var headerRow = document.createElement('tr');
             header.appendChild(headerRow)
 
-            var selectColumnsRow = document.createElement('tr')
-            var selectColumnsBody = document.createElement('tbody')
-            selectColumnsBody.appendChild(selectColumnsRow)
-            selectColumnsTable.appendChild(selectColumnsBody)
-
-            var renameColumnsRow = document.createElement('tr')
-            var renameColumnsBody = document.createElement('tbody')
-            renameColumnsBody.appendChild(renameColumnsRow)
-            renameColumnsTable.appendChild(renameColumnsBody)
-
-            for (var j = 0; j < 5 ; j++){ // for each column
+            for (var j = 0; j < 7 ; j++){ // for each column
                 // header
                 headerItem = document.createElement("th")
                 headerItem.scope = "col"
@@ -31,6 +21,7 @@ function loadDataFromFile(){
                 // select columns row
                 selectColumnsItem = document.createElement("td")
                 selectList = document.createElement('select')
+                selectList.style.width = "100%"
                 selectList.onchange = verifyRequiredColumns
 
                 caseID = document.createElement('option')
@@ -70,6 +61,7 @@ function loadDataFromFile(){
                 renameColumnsItem = document.createElement("td")
                 input = document.createElement("input")
                 input.type = "text"
+                input.style.width = "100%"
                 renameColumnsItem.appendChild(input)
                 renameColumnsRow.appendChild(renameColumnsItem)
             }
@@ -77,7 +69,7 @@ function loadDataFromFile(){
         else{
             var bodyRow = document.createElement('tr');
             body.appendChild(bodyRow)
-            for (var j = 0; j < 5 ; j++){ // for each column
+            for (var j = 0; j < 7 ; j++){ // for each column
                 bodyItem = document.createElement("td")
                 bodyItem.innerText = "DATA"
                 bodyRow.appendChild(bodyItem)
@@ -88,10 +80,34 @@ function loadDataFromFile(){
     dataTable.appendChild(header)
     dataTable.appendChild(body)
 
+    //select columns
+    row = document.createElement("tr")
+    col = document.createElement("td")
+    col.colSpan = "7"
+    selectColumnsLabel = document.createElement("div")
+    selectColumnsLabel.innerText = "Select columns:"
+    col.appendChild(selectColumnsLabel)
+    row.appendChild(col)
+    body.appendChild(row)
+    body.appendChild(selectColumnsRow)
+
+    //rename colums row
+    row = document.createElement("tr")
+    col = document.createElement("td")
+    col.colSpan = "7"
+    renameColumnsLabel = document.createElement("div")
+    renameColumnsLabel.innerText = "Rename columns:"
+    col.appendChild(renameColumnsLabel)
+    row.appendChild(col)
+    body.appendChild(row)
+    body.appendChild(renameColumnsRow)
+
     verifyRequiredColumns()
 }
 
+
 loadDataFromFile();
+
 
 function verifyRequiredColumns(){
 var requiredColumns = {
