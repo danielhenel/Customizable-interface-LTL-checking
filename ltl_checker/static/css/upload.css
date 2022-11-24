@@ -1,0 +1,127 @@
+#uploadArea{
+  width: 40rem;
+  height: 30rem;
+  background-color: #498ECE;
+  border: 1px solid #000000;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 30px;
+}
+
+#cloud-image{
+  width: 20rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#fileField{
+  background-color: rgb(109, 105, 105);
+  color: rgb(255, 255, 255);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 30px;
+  width: 90%;
+}
+
+#fileField::file-selector-button {
+  background-color: rgb(70, 68, 68);
+  color: rgb(255, 255, 255);
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 30px;
+}
+
+/* Header */
+#header-navbar {
+	background-color: #1B509F;
+	border-radius: 0;
+	border: 0;
+}
+
+/* Title */
+#title {
+  color: white;
+  text-align: center;
+}
+
+h1{
+  font-weight: bold;
+  font-size: 50px;
+  text-shadow: 1px 1px #262424
+}
+
+#logo-img {
+	background: url('../images/ltl\ logo.jpg') no-repeat;
+	width: 150px;
+  height: 129px;
+	margin: 10px 15px 10px 0;
+}
+  
+.navbar-brand {
+  padding-top: 60px;
+}
+.navbar-brand h1 { /* LTL CHECKER in nav */
+	color: #ffffff;
+	font-size: 2.0em;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #498ECE;
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: .75;
+}
+
+.navbar-brand a:hover, .navbar-brand a:focus {
+	text-decoration: none;
+}
+
+
+#nav-list {
+  margin-top: 10px;
+	margin-bottom: 0;
+	line-height: .75;
+  padding-left: 80px;
+}
+#nav-list a {
+  color: #ffffff;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #006064;
+  text-align: center;
+}
+#nav-list a:hover {
+  background: #E7E7E7;
+}
+
+#dropdown-list a{
+  color: #000000;
+	font-size: 1.0em;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #006064;
+  text-align: center;
+  position:relative;
+}
+
+.navbar-header button.navbar-toggler {
+  border: 1px solid #ffffff;
+}
+
+/* Text in Upload Card */
+h2 {
+  color:#000000;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+ }
+
+/* Browse Button */
+#btn{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
