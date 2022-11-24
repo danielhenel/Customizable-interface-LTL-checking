@@ -31,3 +31,66 @@ body, html {
     transform: translateY(-50%);
     visibility: hidden;
 }
+
+/* Header */
+#header-navbar {
+	background-color: #1b2835;
+	border-radius: 0;
+	border: 0;
+}
+
+
+#logo-img {
+	background: url('../images/ltl\ logo.jpg') no-repeat;
+	width: 150px;
+  height: 129px;
+	margin: 10px 15px 10px 0;
+}
+  
+.navbar-brand {
+  padding-top: 60px;
+}
+.navbar-brand h1 { /* LTL CHECKER in nav */
+	color: #fbd1a2;
+	font-size: 2.0em;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #f79256;
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: .75;
+}
+
+.navbar-brand a:hover, .navbar-brand a:focus {
+	text-decoration: none;
+}
+
+
+#nav-list {
+  margin-top: 10px;
+	margin-bottom: 0;
+	line-height: .75;
+  padding-left: 80px;
+}
+#nav-list a {
+  color: #009688;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #006064;
+  text-align: center;
+}
+#nav-list a:hover {
+  background: #E7E7E7;
+}
+
+#dropdown-list a{
+  color: #009688;
+	font-size: 1.0em;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #006064;
+  text-align: center;
+  position:relative;
+}
+
+.navbar-header button.navbar-toggler {
+  border: 1px solid #ffffff;
+}
