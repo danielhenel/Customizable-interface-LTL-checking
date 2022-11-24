@@ -31,16 +31,19 @@ function download(text, name, type){
                     <div class="card-body">
                          <form action="/upload" method="POST" enctype="multipart/form-data">
                             <img class="card-img-top" id="cloud-image" src="{{url_for('static', filename='images/cloud-black.png')}}" alt="Card image cap">
-                            <input type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false"> <br>           
+                            <input type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false"> <br> 
+                            <button type="submit">Download file</button>           
                         </form>                    
                     </div>
                 </div>
             </div>
+            <!--
             <div class="col-sm-2" id="rightCol">
               <button id="nextButton" onclick="download('file text', 'myfilename.txt', 'text/plain')">
                 <img src="{{url_for('static', filename='images/next.png')}}" id="nextButtonImg">
               </button>
             </div>
+            -->
           </div>
       </div>      
     <!--bootstrap scripts-->
