@@ -41,14 +41,14 @@ body, html {
 
 
 #logo-img {
-	background: url('../images/ltl\ logo.jpg') no-repeat;
+	background: url('../images/ltl\ logo.png') no-repeat;
 	width: 150px;
   height: 129px;
-	margin: 10px 15px 10px 0;
+	margin: 10px 55px 10px 0;
 }
   
 .navbar-brand {
-  padding-top: 60px;
+  padding-top: 55px;
 }
 .navbar-brand h1 { /* LTL CHECKER in nav */
 	color: #fbd1a2;
@@ -69,7 +69,7 @@ body, html {
   margin-top: 10px;
 	margin-bottom: 0;
 	line-height: .75;
-  padding-left: 80px;
+  padding-left: 150px;
 }
 #nav-list a {
   color: #009688;
@@ -91,6 +91,12 @@ body, html {
   position:relative;
 }
 
+.dropdown-menu {
+  background: #1b2835;
+}
+
 .navbar-header button.navbar-toggler {
   border: 1px solid #ffffff;
+  background: #fbd1a2;
+  margin-left: 80px;
 }
