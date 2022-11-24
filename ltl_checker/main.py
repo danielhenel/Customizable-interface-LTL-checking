@@ -1,12 +1,16 @@
 import os
+import pandas as pd
+import pm4py
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime
+
 
 ALLOWED_EXTENSIONS = set(['csv']) #here we can specify the file extensions that our application allows
 
 #init global vars
 filename = ''
+file = ''
 savelocation = os.path.join(os.getcwd(), 'ltl_checker', 'uploads')
 
 
@@ -32,6 +36,17 @@ def upload():
             return ('error: wrong file format')
 
     return render_template('upload.html')
+
+def convertInput():
+    if file.filename.endswith('.csv'): 
+        raw_log = pd.read_csv(file)
+        print(raw_log.head())
+    elif file.filename.endswith('.xes'): 
+        raw_log = pm4py.read_xes(os.path.join(savelocation, filename))
+        print(raw_log.head())
+    
+
+
 
 
 
