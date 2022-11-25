@@ -70,7 +70,7 @@
                 <div id="title">
                   <h1>LTL CHECKER</h1>
                 </div> 
-                <!-- Upload Card -->  
+                 
                 <!-- Upload Card -->  
                 <div class="card" id="uploadArea">
                       <div class="card-body">
@@ -78,12 +78,21 @@
                             <h2><span>Drag and Drop File Here</span></h2>
                               <img class="card-img-top" id="cloud-image" src="{{url_for('static', filename='images/cloud-black.png')}}" alt="Card image cap">
                               <h2><span>or</span></h2>
+                              <!--When file extention corrects message-->
+                              <section id="success"> </section>
+                              <section id="filena"> </section>
+                              
+
                                   <!-- Upload Button -->
                                   <div class="text-center">
                                     <label for="fileField" class="btn btn-light btn-lg ">Browse file</label>
-                                    <input  type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false" style="display:none" >  <br>
+                                    <input  type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false" style="display:none"  >  <br>
+                                    <!-- Reload Button -->
+                                    
                                   </div> 
-                          </form>                    
+                          </form>
+                          <!--When file extention wrong error message-->
+                          <section id="fail"> </section>                    
                       </div>
                   </div>
               </div>
