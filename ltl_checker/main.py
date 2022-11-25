@@ -34,7 +34,8 @@ def convertInput():
     elif file.filename.endswith('.xes'): 
         pass #TODO: 
         raw_log = pm4py.read_xes(file)
-        print(raw_log.head())
+        raw_log = pm4py.convert_to_dataframe(raw_log)
+        return raw_log
     
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
