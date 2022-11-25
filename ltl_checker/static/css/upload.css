@@ -31,3 +31,67 @@
   border: thin solid grey;
   border-radius: 30px;
 }
+
+/* Title */
+#title {
+  color: white;
+  text-align: center;
+}
+
+h1{
+  font-weight: bold;
+  font-size: 50px;
+  text-shadow: 1px 1px #262424
+}
+
+/* Text in Upload Card */
+h2 {
+  color:#000000;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+ }
+
+ /* File message */
+ #fail {
+  color:#ec2323;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+ }
+
+ #success {
+  color:#00FFA6;
+  text-align: center;
+  font-size: 20px;
+  font-weight
+  : bold;
+ }
+
+ #filena {
+  color:#00FFA6;
+  text-align: center;
+  font-size: 15px;
+  font-weight
+  : bold;
+
+ }
+/*Reload Button */
+ #rbutton {
+  background-color: Transparent;
+  border: none;
+  top:98%;
+  left:65%;
+  width:40px;
+  height:40px;
+  position: absolute;
+  z-index: 2;
+}
+
+#button:hover {
+  background: lightsalmon;
+}
+
+
+
+
