@@ -61,7 +61,7 @@ function changeCloudColor(){
         btn.addEventListener("click", function () {
             window.location.reload();
         });
-        
+        btn.style.visibility = "hidden" //TODO
         document.body.appendChild(btn);
 
         
