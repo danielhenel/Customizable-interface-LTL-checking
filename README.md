@@ -43,7 +43,7 @@ If there are any questions please feel free to get in touch with our communicati
 * Docker configuration, project setup
 
 * The "Upload" page
-<br> Curretly it works only for .csv files. The columns must be separated by commas.
+<br> Currently it works only for .csv files. The columns must be separated by commas.
  ![](ltl_checker/static/images/upload.png)
 
 * The "Columns Selection" page
