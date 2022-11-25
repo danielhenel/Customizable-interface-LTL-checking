@@ -3,13 +3,14 @@ body, html {
 }
   
 #leftCol, #rightCol{
-    background-color: #1B509F;
+    background-color: #497e87 ;
     display: flex;
     justify-content: center;
 }
   
 #central-col{
-    background-color: #498ECE;
+    background-color: #43692b;
+    box-shadow: 12px 0 15px -4px #b3fff1, 12px 0 15px -4px #b3fff1;
 }
   
 #nextButtonImg, #previousButtonImg{
