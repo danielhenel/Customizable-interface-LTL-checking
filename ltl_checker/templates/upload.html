@@ -62,15 +62,11 @@
 
     </header>
 
-    <div class="container-fluid h-100">
+    <div class="container-fluid">
         <div class="row h-100">
             <div class="col-sm-2" id="leftCol"></div>
-            <div class="col-sm-8 d-flex justify-content-center vh-100 align-items-center" id="central-col">
+            <div class="col-sm-8 d-flex justify-content-center align-items-center" id="central-col">
               <div>
-                <div id="title">
-                  <h1>LTL CHECKER</h1>
-                </div> 
-                 
                 <!-- Upload Card -->  
                 <div class="card" id="uploadArea">
                       <div class="card-body">
@@ -84,7 +80,7 @@
                               
 
                                   <!-- Upload Button -->
-                                  <div class="text-center">
+                                  <div class="text-center" id="buttons">
                                     <label id="browseFileButton" for="fileField" class="btn btn-light btn-lg ">Browse file</label>
                                     <input  type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false" style="display:none"  >  <br>
                                     <!-- Reload Button -->
