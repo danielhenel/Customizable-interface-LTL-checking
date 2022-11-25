@@ -22,10 +22,6 @@ def upload():
     data = convertInput()
     return render_template('columns-selection.html',data=data.head(5).to_json())
 
-@app.route('/preview',methods = ['GET'])
-def preview():
-    return render_template('columns-selection.html',data=data)
-
 def convertInput():
     global file
     if file.filename.endswith('.csv'): 
