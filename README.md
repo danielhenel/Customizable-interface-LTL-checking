@@ -38,6 +38,31 @@ If there are any questions please feel free to get in touch with our communicati
 [Mohamed](amine.kooli@rwth-aachen.de)
 
 
+## Sprint 1
+### DONE:
+* Docker configuration, project setup
+
+* The "Upload" page
+<br> Curretly it works only for .csv files. The columns must be separated by commas.
+ ![](ltl_checker/static/images/upload.png)
+
+* The "Columns Selection" page
+![](ltl_checker/static/images/select_columns.png)
+
+* The "About Us" page
+![](ltl_checker/static/images/about_us_1.png)
+![](ltl_checker/static/images/about_us_2.png)
+
+### TODO in the next sprint:
+
+* Fix bugs with uploading a xes file
+* Unit tests for the function convertInput()
+* Help user guide
+* Reload button 
+* Fix page refresh errors
+* cleanData() function
+* The filter selection page
+
 
 ## Documentation: 
 ### Python functions:  
@@ -56,8 +81,6 @@ If there are any questions please feel free to get in touch with our communicati
 * Eventlisteners <br> In the js file, we have also developped multiple Eventlisteners, for example:
         a) The first EventListener handles the "drag part": It checks whether the client drags his mouse over the screen with a file from his directory that the client     wishes to drag and drop into the main box on the upload.html page
         b) The second EventListener handles the "drop part": Once the client has dropped the file into the main box and it has been uploaded, it checks whether at most one file has been uploaded. If not, the alert "You can only upload one file!" appears.
-
-
 
 
 
