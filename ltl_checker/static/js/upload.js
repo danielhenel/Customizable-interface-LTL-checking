@@ -22,6 +22,11 @@ function changeCloudColor(){
         image.src = "./static/images/cloud-green.png";
         // user can go forward
         document.getElementById("nextButton").style.visibility = "visible";
+        // next button
+        document.getElementById("nextButton").onclick = function(){
+            form = document.getElementById("uploadFileForm")
+            form.submit()
+        }
         
     } else {
         // red color when the file is in the wrong format

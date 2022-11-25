@@ -75,9 +75,9 @@ function download(text, name, type){
             <div class="col-sm-8 d-flex justify-content-center vh-100 align-items-center" id="central-col">
                 <div class="card" id="uploadArea">
                     <div class="card-body">
-                         <form action="/upload" method="POST" enctype="multipart/form-data">
+                      <form id="uploadFileForm" action="/selectColumns" method="POST" enctype="multipart/form-data">
                             <img class="card-img-top" id="cloud-image" src="{{url_for('static', filename='images/cloud-black.png')}}" alt="Card image cap">
-                            <input type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false"> <br>       
+                            <input type="file" id="fileField" name="file" accept=".csv, .xes" multiple="false"> <br> 
                         </form>                    
                     </div>
                 </div>
