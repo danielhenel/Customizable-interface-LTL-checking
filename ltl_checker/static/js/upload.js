@@ -36,8 +36,8 @@ function changeCloudColor(){
         }       
         document.getElementById("fail").style.visibility = "hidden";
 
-        //hide upload button DOES NOT WORK
-        document.getElementById('fileField').style.display = 'none';
+        //hide upload button
+        document.getElementById('browseFileButton').style.display = 'none';
 
         
         //display file name
