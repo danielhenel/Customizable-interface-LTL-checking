@@ -1,4 +1,10 @@
-function loadDataFromFile(){
+function loadDataFromFile(data){
+
+    data = JSON.parse(data)
+    column_names = Object.keys(data)
+    col_number = column_names.length
+    row_number = Object.keys(data[column_names[0]]).length
+
     document.getElementById("previousButton").style.visibility = "visible";
     dataTable = document.getElementById("data")
     var header = document.createElement('thead');
@@ -6,16 +12,16 @@ function loadDataFromFile(){
     var selectColumnsRow = document.createElement('tr')
     var renameColumnsRow = document.createElement('tr')
     
-    for (var i = 0; i < 7; i++ ){ // for each row
+    for (var i = 0; i < row_number; i++ ){ // for each row
         if (i == 0){ // the first row is the header
             var headerRow = document.createElement('tr');
             header.appendChild(headerRow)
 
-            for (var j = 0; j < 7 ; j++){ // for each column
+            for (var j = 0; j < col_number ; j++){ // for each column
                 // header
                 headerItem = document.createElement("th")
                 headerItem.scope = "col"
-                headerItem.innerText = "COLUMN NAME"
+                headerItem.innerText = column_names[j]
                 headerRow.appendChild(headerItem)
 
                 // select columns row
@@ -69,9 +75,9 @@ function loadDataFromFile(){
         else{
             var bodyRow = document.createElement('tr');
             body.appendChild(bodyRow)
-            for (var j = 0; j < 7 ; j++){ // for each column
+            for (var j = 0; j < col_number ; j++){ // for each column
                 bodyItem = document.createElement("td")
-                bodyItem.innerText = "DATA"
+                bodyItem.innerText = data[column_names[j]][i]
                 bodyRow.appendChild(bodyItem)
             }
         }
@@ -101,12 +107,9 @@ function loadDataFromFile(){
     row.appendChild(col)
     body.appendChild(row)
     body.appendChild(renameColumnsRow)
-
     verifyRequiredColumns()
 }
 
-
-loadDataFromFile();
 
 
 function verifyRequiredColumns(){
