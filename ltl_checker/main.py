@@ -32,6 +32,8 @@ def convertInput():
         raw_log = pm4py.read_xes(file)
         raw_log = pm4py.convert_to_dataframe(raw_log)
         return raw_log
+    else: 
+        return('wrong file format')
     
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
