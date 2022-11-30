@@ -14,6 +14,10 @@ app = Flask(__name__)
 def start():
    return render_template('upload.html') 
 
+@app.route('/aboutUs')
+def aboutUs():
+   return render_template('about-us.html') 
+
 @app.route('/selectColumns',methods = ['POST','GET'])
 def upload():
     global data

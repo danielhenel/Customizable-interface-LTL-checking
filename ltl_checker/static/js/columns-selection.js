@@ -6,6 +6,7 @@ function loadDataFromFile(data){
     row_number = Object.keys(data[column_names[0]]).length
 
     document.getElementById("previousButton").style.visibility = "visible";
+    document.getElementById("previousButton").onclick = function(){window.location.replace('/')}
     dataTable = document.getElementById("data")
     var header = document.createElement('thead');
     var body = document.createElement('tbody')
@@ -29,6 +30,7 @@ function loadDataFromFile(data){
                 // select columns row
                 selectColumnsItem = document.createElement("td")
                 selectList = document.createElement('select')
+                selectList.style.width = "100%"
                 selectList.onchange = verifyRequiredColumns
 
                 caseID = document.createElement('option')
@@ -68,6 +70,7 @@ function loadDataFromFile(data){
                 renameColumnsItem = document.createElement("td")
                 input = document.createElement("input")
                 input.type = "text"
+                input.style.width = "100%"
                 renameColumnsItem.appendChild(input)
                 renameColumnsRow.appendChild(renameColumnsItem)
             }
@@ -90,6 +93,9 @@ function loadDataFromFile(data){
     row = document.createElement("tr")
     col = document.createElement("td")
     col.colSpan = "7"
+    col.style.textAlign = "left"
+    col.style.fontWeight = "bold"
+    col.style.color = "white"
     selectColumnsLabel = document.createElement("div")
     selectColumnsLabel.innerText = "Select columns:"
     col.appendChild(selectColumnsLabel)
@@ -101,6 +107,9 @@ function loadDataFromFile(data){
     row = document.createElement("tr")
     col = document.createElement("td")
     col.colSpan = "7"
+    col.style.textAlign = "left"
+    col.style.fontWeight = "bold"
+    col.style.color = "white"
     renameColumnsLabel = document.createElement("div")
     renameColumnsLabel.innerText = "Rename columns:"
     col.appendChild(renameColumnsLabel)

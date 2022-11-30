@@ -1,15 +1,17 @@
 body, html {
     height: 100%;
+    background-color: #1b2835
 }
   
 #leftCol, #rightCol{
-    background-color: #1B509F;
+    background-color: #497e87 ;
     display: flex;
     justify-content: center;
 }
   
 #central-col{
-    background-color: #498ECE;
+    background-color: #c9b6b6;
+    /* box-shadow: 12px 0 15px -4px #b3fff1, 12px 0 15px -4px #b3fff1; */
 }
   
 #nextButtonImg, #previousButtonImg{
@@ -18,7 +20,11 @@ body, html {
     width: 90%;
     max-height: 15em;
   }
-  
+
+.container-fluid{
+  height: 80%;
+}
+
 #nextButton, #previousButton{
     display: block;
     background-color: transparent;
