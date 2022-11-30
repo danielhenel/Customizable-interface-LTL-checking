@@ -18,13 +18,24 @@ def start():
 def aboutUs():
    return render_template('about-us.html') 
 
+@app.route('/errorPage')
+def errorPage(): 
+    return render_template('error.html')
+
 @app.route('/selectColumns',methods = ['POST','GET'])
+
 def upload():
-    global data
-    global file
-    file = request.files['file']
-    data = convertInput()
-    return render_template('columns-selection.html',data=data.head(5).to_json())
+    try: 
+        global data
+        global file
+        file = request.files['file']
+        data = convertInput()
+        return render_template('columns-selection.html',data=data.head(5).to_json())
+    except pd.errors.EmptyDataError: 
+        return render_template('error.html', message = 'Your data is empty!!!')
+
+
+
 
 def convertInput():
     global file
@@ -37,8 +48,9 @@ def convertInput():
         raw_log = pm4py.convert_to_dataframe(raw_log)
         return raw_log
     else: 
-        return('wrong file format')
-    
+       raise Exception('File Wrong format or empty')
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
