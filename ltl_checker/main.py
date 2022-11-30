@@ -39,13 +39,17 @@ def upload():
 
 def convertInput():
     global file
+    #check for file ending and then convert the uploaded log into data frame
     if file.filename.endswith('.csv'): 
         raw_log = pd.read_csv(file)
         return raw_log
     elif file.filename.endswith('.xes'): 
         pass #TODO: 
-        raw_log = pm4py.read_xes(file)
+        temp_path = os.path.join(os.getcwd(),'ltl_checker','uploads','raw_log.xes') #temporarily save file for conversion
+        file.save(temp_path)
+        raw_log = pm4py.read_xes(temp_path)
         raw_log = pm4py.convert_to_dataframe(raw_log)
+        os.remove(temp_path) # delete file after conversion
         return raw_log
     else: 
        raise Exception('File Wrong format or empty')
