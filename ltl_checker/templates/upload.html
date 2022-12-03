@@ -45,11 +45,11 @@
                   Help user guide
                 </a>
                 <div id="dropdown-list" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Download File</a>
-                  <a class="dropdown-item" href="#">Select feature</a>
-                  <a class="dropdown-item" href="#">Select LTL rules</a>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#popup1" href="#">Upload File</a>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#popup2" href="#">Select feature</a>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#popup3" href="#">Select LTL rules</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Contact</a>
+                  <a class="dropdown-item" href = "mailto: amine.kooli@rwth-aachen.de" target="_blank">Contact</a>
                 </div>
               </li>
               <li class="nav-item">
@@ -61,7 +61,69 @@
       </nav>
 
     </header>
-
+    <!-- Pop-up 1 -->
+    <div id="popup1" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">Upload File</p>
+                </div>
+                <div class="modal-body">
+                    <p> On the start page, you should upload an input file either in CSV or XES format. Any other file format could not be accepted.
+                      To do so you have two possibilities:<br> 
+                      <ul> 
+                        <li>
+                          Drag & drop a file from your device
+                        </li> 
+                        <li>
+                          Click on "Browse File" and choose a file.
+                        </li>
+                      </ul>   
+                    </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 1 -->
+    <!-- Pop-up 2 -->
+    <div id="popup2" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">Select features</p>
+                </div>
+                <div class="modal-body">
+                    <p> You could select required columns from the input data you have uploaded and rename them.
+                      Exactly one column should be selected for each required column </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 2 -->
+    <!-- Pop-up 3 -->
+    <div id="popup3" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">select LTL Rules</p>
+                </div>
+                <div class="modal-body">
+                    <p> You can select different LTL filters and combine them with logical
+                      operators in a flexible way. </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 3 -->
     <div class="container-fluid">
         <div class="row h-100">
             <div class="col-sm-2" id="leftCol"></div>
@@ -105,6 +167,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!--other scripts-->
-    <script src = "{{url_for('static', filename='js/upload.js')}}"></script>   
+    <script src = "{{url_for('static', filename='js/upload.js')}}"></script>
 </body>
 </html>
