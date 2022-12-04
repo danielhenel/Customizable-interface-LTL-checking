@@ -1,0 +1,19 @@
+.addButton, .deleteButton{
+    border-radius: 50%;
+    height: 2em;
+    width: 2em;
+    background-color: gray;
+    background-position: center;
+}
+
+.selectList{
+    border-radius: 10%;
+    height: 2em;
+    background-color: gray
+}
+
+img{
+    height: 1.2em;
+    width: 1.2em;
+}
+
