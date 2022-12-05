@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+        <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/wrong-format.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main-styles.css')}}">
+    <title>LTL Checker</title>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <header>
+      <nav id="header-navbar" class="navbar navbar-expand-lg navbar-light ">
+        
+        <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="float-left visible-md visible-lg">
+                <div id="logo-img" alt="Logo image"></div>
+              </a>
+    
+              <div class="navbar-brand">
+                <a href="/"><h1>LTL CHECKER</h1></a>
+              </div>
+
+              <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#collapsable-nav" aria-controls="collapsable-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            </div>
+          
+          <div id="collapsable-nav" class="collapse navbar-collapse">
+            <ul id="nav-list" class="nav navbar-nav navbar-right">
+              <li class="navHomeButton">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Help user guide
+                </a>
+                <div id="dropdown-list" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" data-toggle="modal" data-target="#popup1" href="#">Upload File</a>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#popup2" href="#">Select feature</a>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#popup3" href="#">Select LTL rules</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href = "mailto: amine.kooli@rwth-aachen.de" target="_blank">Contact</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/aboutUs">About us</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    </header>
+    <!-- Pop-up 1 -->
+    <div id="popup1" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">Upload File</p>
+                </div>
+                <div class="modal-body">
+                    <p> On the start page, you should upload an input file either in CSV or XES format. Any other file format could not be accepted.
+                      To do so you have two possibilities:<br> 
+                      <ul> 
+                        <li>
+                          Drag & drop a file from your device
+                        </li> 
+                        <li>
+                          Click on "Browse File" and choose a file.
+                        </li>
+                      </ul>   
+                    </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 1 -->
+    <!-- Pop-up 2 -->
+    <div id="popup2" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">Select features</p>
+                </div>
+                <div class="modal-body">
+                    <p> You could select required columns from the input data you have uploaded and rename them.
+                      Exactly one column should be selected for each required column </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 2 -->
+    <!-- Pop-up 3 -->
+    <div id="popup3" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">select LTL Rules</p>
+                </div>
+                <div class="modal-body">
+                    <p> You can select different LTL filters and combine them with logical
+                      operators in a flexible way. </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 3 -->
+    <div class="container-fluid">
+        <div class="row h-100">
+            <div class="col-sm-2" id="leftCol"></div>
+            <div class="col-sm-8 d-flex justify-content-center align-items-center" id="central-col">
+              <div>
+                <!-- Wrong format Card -->  
+                <div class="card" id="wrongArea">
+                      <div class="card-body">  
+                            <img class="card-img-top" id="wrong-image" src="{{url_for('static', filename='images/false.png')}}" alt="Wrong image">
+                            <br>
+                            <div class="text-center">
+                                <h2><span>Wrong format :( Please click <a href="/" style="color: red">here</a> to go back and try again !</span></h2>
+                            </div>              
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-2" id="rightCol">
+            </div>
+          </div>
+      </div>      
+    <!--bootstrap scripts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!--other scripts-->
+    <script src = "{{url_for('static', filename='js/upload.js')}}"></script>
+</body>
+</html>
