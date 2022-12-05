@@ -4,6 +4,7 @@ import pm4py
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import sympy as sp
 
 data = None
 file = None
@@ -53,6 +54,27 @@ def convertInput():
         return raw_log
     else: 
        raise Exception('File Wrong format or empty')
+
+
+def simplifyExpression(expr): #this function returns a list of all the conjunctively connected clauses in the filter expression
+    #convert expression to CNF
+    cnf = sp.to_cnf(expr)
+    # seperate different Clauses in CNF
+    clauses = cnf.args
+    clause_list = []
+    for clause in clauses: 
+        clause_list.append(clause)
+    return clause_list
+
+
+
+     
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
