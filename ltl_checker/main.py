@@ -5,6 +5,7 @@ from flask import Flask, request, render_template, redirect, url_for, send_from_
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import sympy as sp
+import sympy.abc
 
 data = None
 file = None
@@ -56,25 +57,22 @@ def convertInput():
        raise Exception('File Wrong format or empty')
 
 
-def simplifyExpression(expr): #this function returns a list of all the conjunctively connected clauses in the filter expression
+def simplifyExpression(expr) -> list: #this function returns a list of all the conjunctively connected clauses in the filter expression
     #convert expression to CNF
     cnf = sp.to_cnf(expr)
     # seperate different Clauses in CNF
     clauses = cnf.args
-    clause_list = []
-    for clause in clauses: 
-        clause_list.append(clause)
+    clause_list = tupleToList(clauses)
+    #convert clauses in list to list of literals
+    for i in range(0,len(clause_list)-1):
+        clause_list[i] = tupleToList(clause_list[i].args)   
     return clause_list
 
-
-
-     
-
-
-
-
-
-
+def tupleToList(tuple) -> list: 
+    retList = []
+    for element in tuple:
+        retList.append(element)
+    return retList
 
 
 if __name__ == '__main__':
