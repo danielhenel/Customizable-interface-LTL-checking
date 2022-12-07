@@ -5,8 +5,9 @@ from flask import Flask, request, render_template, redirect, url_for, send_from_
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import sympy as sp
-import sympy.abc
+from sympy import *
 import lxml
+import pm4py.algo.filtering.pandas.ltl as ltl
 
 data = None
 file = None
@@ -77,6 +78,45 @@ def tupleToList(tuple) -> list:
         retList.append(element)
     return retList
 
+
+def calc_result(list_of_terms, dictionary, raw_log) -> pd.DataFrame:
+    #define log which is to be returned
+    ret_log = raw_log
+    for key in dictionary:
+        #generate the symbols for sympy 
+        globals()[key] = symbols('{0}'.format(key))
+    
+    for key2 in dictionary: 
+        filterType = dictionary[key2]
+        if filterType == 'four_eyes_principle': 
+            ret_log = four_eyes_principle(ret_log,dictionary[key2])
+        elif filterType == 'eventually_follows_2': 
+            ret_log = eventually_follows_2(ret_log,dictionary[key2])
+        elif filterType == 'eventually_follows_3': 
+            ret_log = eventually_follows_3(ret_log,dictionary[key2])
+        elif filterType == 'eventually_follows_4':
+            ret_log = eventually_follows_4(ret_log,dictionary[key2])
+
+    return ret_log
+        
+
+    
+
+def four_eyes_principle(activites,df):
+    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites)
+    return filtered_log
+
+def eventually_follows_2(activities,df): 
+    filtered_log = ltl.ltl_checker.A_eventually_B(df,*activities)
+    return filtered_log
+
+def eventually_follows_3(activities,df):
+    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities)
+    return filtered_log
+
+def eventually_follows_4(activities,df):
+    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities)
+    return filtered_log
 
 
 
