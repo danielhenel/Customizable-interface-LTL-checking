@@ -59,14 +59,18 @@ def renameColumns(columns_to_drop, columns_to_rename, data):
     global mandatory_columns 
     mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
     #rename the dataframe by handing the rename function a dictionary
-    data = data.rename(columns=columns_to_rename)
+    data.rename(columns=columns_to_rename, inplace = True)
 
     for column in columns_to_drop:
         if(column in mandatory_columns): 
             pass
         else:
-            data = data.drop(column, axis=1)
+            data.drop(column, axis=1, inplace = True)
     return data
+
+
+def getActivities(dataframe): 
+    return dataframe['concept:name'].unique()
 
     
 if __name__ == '__main__':
