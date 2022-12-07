@@ -35,7 +35,7 @@ def upload():
         data = convertInput()
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
-        return render_template('error.html', message = 'Your <CSV data is empty!!!')
+        return render_template('error.html', message = 'Your CSV data is empty!!!')
     except lxml.etree.XMLSyntaxError:
         return render_template('error.html', message = 'Your XES data is empty!!!')
 
