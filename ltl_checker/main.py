@@ -49,8 +49,7 @@ def convertInput():
         raw_log = pd.read_csv(file, sep = None, engine = 'python')
         return raw_log
     elif file.filename.endswith('.xes'): 
-        pass #TODO: 
-        temp_path = os.path.join(os.getcwd(),'ltl_checker','uploads','raw_log.xes') #temporarily save file for conversion
+        temp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'uploads','raw_log.xes') #temporarily save file for conversion
         file.save(temp_path)
         raw_log = pm4py.read_xes(temp_path)
         raw_log = pm4py.convert_to_dataframe(raw_log)
@@ -85,3 +84,5 @@ def tupleToList(tuple) -> list:
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
+
+    
