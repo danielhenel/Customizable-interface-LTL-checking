@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 import sympy as sp
 import sympy.abc
+import lxml
 
 data = None
 file = None
@@ -34,7 +35,9 @@ def upload():
         data = convertInput()
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
-        return render_template('error.html', message = 'Your data is empty!!!')
+        return render_template('error.html', message = 'Your <CSV data is empty!!!')
+    except lxml.etree.XMLSyntaxError:
+        return render_template('error.html', message = 'Your XES data is empty!!!')
 
 
 
@@ -42,8 +45,8 @@ def upload():
 def convertInput():
     global file
     #check for file ending and then convert the uploaded log into data frame
-    if file.filename.endswith('.csv'): 
-        raw_log = pd.read_csv(file)
+    if file.filename.endswith('.csv'):
+        raw_log = pd.read_csv(file, sep = None, engine = 'python')
         return raw_log
     elif file.filename.endswith('.xes'): 
         pass #TODO: 
@@ -73,6 +76,10 @@ def tupleToList(tuple) -> list:
     for element in tuple:
         retList.append(element)
     return retList
+
+
+
+
 
 
 if __name__ == '__main__':
