@@ -12,9 +12,9 @@ function loadDataFromFile(data){
         fetch('/selectColumns/message', {
         method: 'POST',
         body: message
-        })
-        window.location.replace('/selectFilters')
+        }).then(function(){window.location.replace('/selectFilters')})
     }
+    
     dataTable = document.getElementById("data")
     var header = document.createElement('thead');
     var body = document.createElement('tbody')
@@ -186,8 +186,8 @@ function prepare_message(data){
         var colName = column_names[i]
         var colBox = selectColumnsRow.childNodes[i]
         var colSelect = colBox.firstChild
-        var value = colSelect.value
-        if(value == "drop"){
+        var value1 = colSelect.value
+        if(value1 == "drop"){
             columnsToDrop.push(colName)
         }
         else{
@@ -197,6 +197,18 @@ function prepare_message(data){
             value = colText.value
             if(value != ""){
                 renameColumns[colName] = value
+            }
+            else if(value1 == "caseID"){
+                renameColumns[colName] = "case:concept:name"
+            }
+            else if(value1 == "activityName"){
+                renameColumns[colName] = "concept:name"
+            }
+            else if(value1 == "timeStamp"){
+                renameColumns[colName] = "time:timestamp"
+            }
+            else if(value1 == "resource"){
+                renameColumns[colName] = "org:resource"
             }
         }
     }
