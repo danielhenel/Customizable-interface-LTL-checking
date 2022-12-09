@@ -5,8 +5,13 @@ leftBracketCounter = 0
 rightBracketCounter = 0
 emptyFilter = false
 refresh = false
+attributes = ["A","B","C","D"]
 
+document.getElementById("nextButton").style.visibility = "visible";
+
+document.getElementById("nextButton").onclick = function(){prepare_message()}
 createFirstRow()
+
 
 function createFirstRow() {
 
@@ -18,8 +23,6 @@ function createFirstRow() {
 
 function createNewRowBelow(previousRow){
     var row = document.createElement('tr')
-    attributes = ["A","B","C","D"]
-    firstAttibute = "D"
 
     // select option (,),OR, AND
     var col = document.createElement("td")
@@ -28,26 +31,39 @@ function createNewRowBelow(previousRow){
     col.appendChild(selectOption)
     row.appendChild(col)
     
-
     // select filter
     col = document.createElement("td")
     col.colSpan = "9"
     var selectFilter = createSelectFilterList()
     col.appendChild(selectFilter)
     row.appendChild(col)
-
+    
     // select first attribute
     col = document.createElement("td")
     col.colSpan = "3" 
-    col.appendChild(createSelectFirstAttributeList(attributes))
+    col.appendChild(createSelectAttributeList(attributes))
     row.appendChild(col)
 
     // select second attribute
     col = document.createElement("td")
     col.colSpan = "3"
-    col.appendChild(createSelectSecondAttributeList(attributes,firstAttibute))
+    col.appendChild(createSelectAttributeList(attributes))
     row.appendChild(col)
     
+    if(attributes.length > 2){
+        // select third attribute
+        col = document.createElement("td")
+        col.colSpan = "3"
+        col.appendChild(createSelectAttributeList(attributes))
+        row.appendChild(col)
+
+        // select fourth attribute
+        col = document.createElement("td")
+        col.colSpan = "3"
+        col.appendChild(createSelectAttributeList(attributes))
+        row.appendChild(col)
+    }
+
     // add button
     col = document.createElement("td")
     col.colSpan = "1"
@@ -136,18 +152,28 @@ function createSelectFilterList(){
     selectList.onchange = function(){filterSelected(selectList)}
 
     var item = document.createElement('option')
-    item.value = "F"
+    item.value = "four_eyes_principle"
     item.innerText = "Four eyes principle"
     selectList.appendChild(item)
 
     item = document.createElement('option')
-    item.value = "A"
+    item.value = "attribute_value_different_person"
     item.innerText = "Attribute value different persons"
     selectList.appendChild(item)
 
     item = document.createElement('option')
-    item.value = "E"
-    item.innerText = "Eventually follows"
+    item.value = "eventually_follows_2"
+    item.innerText = "Eventually follows AB"
+    selectList.appendChild(item)
+
+    item = document.createElement('option')
+    item.value = "eventually_follows_3"
+    item.innerText = "Eventually follows ABC"
+    selectList.appendChild(item)
+
+    item = document.createElement('option')
+    item.value = "eventually_follows_4"
+    item.innerText = "Eventually follows ABCD"
     selectList.appendChild(item)
 
     if(emptyFilter){
@@ -160,14 +186,14 @@ function createSelectFilterList(){
     return selectList
 }
 
-function createSelectFirstAttributeList(attributes){
+function createSelectAttributeList(attributes){
 
     var selectList = document.createElement('select')
     selectList.style.width = "100%"
     selectList.classList.add("selectList")
     selectList.classList.add("selectFristAttribute")
-    // firstAttributeSelected(selectList)
-    selectList.onchange = function(){firstAttributeSelected(selectList)}
+
+  //  selectList.onchange = function(){firstAttributeSelected(selectList)}
     
     attributes.forEach(function(attribute){
 
@@ -177,29 +203,6 @@ function createSelectFirstAttributeList(attributes){
         selectList.appendChild(item)
 
     })
-
-    return selectList
-}
-
-function createSelectSecondAttributeList(attributes,firstAttibute){
-
-    var selectList = document.createElement('select')
-    selectList.style.width = "100%"
-    selectList.classList.add("selectList")
-    selectList.classList.add("selectSecondAttribute")
-  //  secondAttributeSelected(selectList)
-    selectList.onchange = function(){secondAttributeSelected(selectList)}
-    
-    attributes.forEach(function(attribute){
-
-        if(attribute != firstAttibute){
-            var item = document.createElement('option')
-            item.value = attribute
-            item.innerText = attribute
-            selectList.appendChild(item)
-        }
-    })
-    
     return selectList
 }
 
@@ -239,6 +242,10 @@ function optionSelected(selectList){
         row.children[2].style.visibility = "hidden"
         //hide second attribute
         row.children[3].style.visibility = "hidden"
+        //hide third attribute
+        row.children[4].style.visibility = "hidden"
+        //hide fourth attribute
+        row.children[5].style.visibility = "hidden"
         //delete empty
         for(const child of filterSelectList.children)
         {  
@@ -276,29 +283,24 @@ function filterSelected(selectList){
     var selected = selectList.value
     var row = selectList.parentElement.parentElement
 
-    if(selected=="F") // four eyes principle
-    {
-        emptyFilter = false
-        //show first attribute
-        row.children[2].style.visibility = "visible"
-        //show second attribute
-        row.children[3].style.visibility = "visible"
+    visibility = {
+        "four_eyes_principle":["visible","visible","hidden","hidden"],
+        "attribute_value_different_person":["visible","hidden","hidden","hidden"],
+        "eventually_follows_2":["visible","visible","hidden","hidden"],
+        "eventually_follows_3":["visible","visible","visible","hidden"],
+        "eventually_follows_4":["visible","visible","visible","visible"],
     }
-    else if(selected=="A") // attribute value different persons
-    {
+
+    if(selected in visibility){
         emptyFilter = false
-        //show first attribute
-        row.children[2].style.visibility = "visible"
-        //hide second attribute
-        row.children[3].style.visibility = "hidden"
-    }
-    else if(selected=="E") //eventually follows
-    {
-        emptyFilter = false
-        //show first attribute
-        row.children[2].style.visibility = "visible"
-        //show second attribute
-        row.children[3].style.visibility = "visible"
+        //first attribute
+        row.children[2].style.visibility = visibility[selected][0]
+        //second attribute
+        row.children[3].style.visibility = visibility[selected][1]
+        //third attribute
+        row.children[4].style.visibility = visibility[selected][2]
+        //fourth attribute
+        row.children[5].style.visibility = visibility[selected][3]
     }
     else{
         emptyFilter = true
@@ -306,33 +308,81 @@ function filterSelected(selectList){
         row.children[2].style.visibility = "hidden"
         //hide second attribute
         row.children[3].style.visibility = "hidden"
+        //hide third attribute
+        row.children[4].style.visibility = "hidden"
+        //hide fourth attribute
+        row.children[5].style.visibility = "hidden"
         leftBracketCounter += 1
         createNewRowBelow(row)
         emptyFilter = false
     }
-    // if(!refresh){
-    // refreshNextRows(row)}
 }
 
-function refreshRow(row){
-    selectOption = row.children[0].children[0]
-    selectFilter = row.children[0].children[0]
-    selectOption.onchange()
-    selectFilter.onchange()
-}
+function prepare_message(){
+    
+    var rows = body.children
+    
+    var expression = ""
+    var dictionary = {}
+    var terms = {}
+    var currentTerm = 64
 
-// function refreshNextRows(row){
-//     refresh = true
-//     var parent = row.parentElement
-//     var found = false
-//     for(const child of parent.children){
-//         if(child == row){
-//             found = true
-//             continue
-//         }
-//         if(refresh){
-//             refreshRow(row)
-//         }
-//     }
-//     refresh = false
-// }
+    for(var i=1; i<rows.length; i++){
+        // 6 fields
+        var fields = rows[i].children
+        var option = null
+        var filter = null
+        var attributes = []
+        var key = ""
+        for(var j=0; j<6; j++){
+            
+            var select = fields[j].firstChild
+            
+            if(j==0){
+                option = select.value
+                if(option!="empty"){``
+                expression = expression.concat(" ", option)
+                }
+            }
+            else if(j==1){
+                filter = select.value
+                key = key.concat(filter)
+            }
+            else{
+                if(fields[j].style.visibility != "hidden")
+                {
+                    attribute = select.value
+                    attributes.push(attribute)
+                    key = key.concat(attribute)
+                }
+            }
+        }
+        // check if the term exists
+        if(key in dictionary){
+            var term = terms[key]
+            expression = expression.concat(" ",term)
+        }
+        else{
+            //create new term
+            currentTerm += 1
+            if(currentTerm == 91){ //Z
+                currentTerm = 97 //a
+            }
+            var newTerm = String.fromCharCode(currentTerm)
+            terms[key] = newTerm
+            expression=expression.concat(" ",newTerm)
+            dictionary[key] = [filter,attributes]
+        }
+    }
+
+
+    var result_dict = {}
+    Object.keys(dictionary).forEach(
+        (key) => {
+            result_dict[terms[key]] = dictionary[key]
+        }
+    )
+
+    var message = [result_dict,expression]
+    return message
+}
