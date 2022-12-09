@@ -70,6 +70,8 @@ If there are any questions please feel free to get in touch with our communicati
 
 * convertInput() <br> This function checks the file type of the uploaded file (i.e. .csv or .xes file) and returns the corresponding dataframe by calling the pandas package function pd.read_csv or the pm4py functions pm4py.read_xes and pm4py.convert_to_dataframe.
 
+
+
  
 
 ### JS functions: 

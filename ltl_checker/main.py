@@ -86,14 +86,7 @@ def tupleToList(tuple) -> list:
         retList.append(element)
     return retList
 
-
-def evaluateCNFFilter(cnf_list):
-    for clause in cnf_list:
-        bool = False
-        for literal in clause:
-            
-
-
+    
 
 def getActivities(dataframe): 
     return dataframe['concept:name'].unique()
