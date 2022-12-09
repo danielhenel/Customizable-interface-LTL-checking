@@ -81,6 +81,7 @@ function changeCloudColor(){
         //alert("The file should be in .csv or .xes format")
         //text for wrong file
         //fixing text
+        
         document.getElementById("success").style.visibility = "hidden";
         document.getElementById("filena").style.visibility = "hidden";
         document.getElementById("fail").style.visibility = "visible";
