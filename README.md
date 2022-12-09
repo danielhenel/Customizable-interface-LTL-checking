@@ -57,6 +57,10 @@ Python functions:
 * four_eyes_principle(param1, param2), eventually_follows_2(param1,param2)
 eventually_follows_3(param1,param2), eventually_follows_4(param1,param2) : helper functions, see explanation above.
 
+* renameColumns(param1, param2, param3) <br> This function takes in three parameters: param1 is a list of columns the client wishes to drop, the second one a list of columns the client wishes to change the names of, and the third one is a dataframe. We define a list of mandatory columns, which cannot be dropped (e.g. case id) where the names fit the standard of the pm4py library. Now, first, the dataframe's columns are automatically renamed to the standard names and the other columns to the name the client has entered. Then, in a for loop, the function drops all columns, making sure that none of the columns is one of the mandatory ones.
+
+* getActivites(df) : returns the unique set of all activites of the dataframe passed to it.
+
 
 
  
