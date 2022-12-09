@@ -17,6 +17,7 @@ data = None
 file = None
 expression = None
 terms_dict = None
+result = None
 
 app = Flask(__name__)
 
@@ -53,6 +54,8 @@ def afterFilterSelection():
     terms_dict = message[0]
     expression = message[1]
     expression = sympify(expression,_clash1)
+    calc_result()
+    print(result.head(5))
     return 
 
 @app.route('/selectColumns2',methods = ['POST','GET'])
@@ -129,39 +132,58 @@ def tupleToList(tuple) -> list:
 def getActivities(dataframe): 
     return dataframe['concept:name'].unique()
 
+def calc_result() -> pd.DataFrame:
+    global data
+    global terms_dict
+    global expression
+    global result
 
+    i = 0
+    for terms in simplifyExpression(expression):
+        j = 0
+        temp = None
 
+        for term in terms:
+            filterType = terms_dict[term][0]
 
-def calc_result(list_of_terms, dictionary, raw_log) -> pd.DataFrame:
-    #define log which is to be returned
-    ret_log = raw_log.copy()
-    temp = [] 
-    for key in dictionary:
-        #generate the symbols for sympy 
-        globals()[key] = symbols('{0}'.format(key))
-    # for each literal in the clause a filtered log will be generated  
-    # and then saved into temp.
-    for key2 in dictionary:   
-        filterType = dictionary[key2]
-        if filterType == 'four_eyes_principle': 
-            ret_log = four_eyes_principle(ret_log,dictionary[key2])
-        elif filterType == 'eventually_follows_2': 
-            ret_log = eventually_follows_2(ret_log,dictionary[key2])
-        elif filterType == 'eventually_follows_3': 
-            ret_log = eventually_follows_3(ret_log,dictionary[key2])
-        elif filterType == 'eventually_follows_4':
-            ret_log = eventually_follows_4(ret_log,dictionary[key2])
-        elif filterType == 'attribute_value_different_persons':
-            ret_log = attribute_value_different_persons(ret_log,dictionary[key2])
-        temp.append(ret_log)
-    #combine all the generated filtered_logs from temp
-    ret_log = pd.concat(temp)
-    #delete all duplicate rows
-    ret_log.drop_duplicates(keep=False)
-    return ret_log
+            if j == 0:
+                if filterType == 'four_eyes_principle': 
+                    temp = four_eyes_principle(data,terms_dict[term][1])
+                elif filterType == 'eventually_follows_2': 
+                    temp = eventually_follows_2(data,terms_dict[term][1])
+                elif filterType == 'eventually_follows_3': 
+                    temp = eventually_follows_3(data,terms_dict[term][1])
+                elif filterType == 'eventually_follows_4':
+                    temp = eventually_follows_4(data,terms_dict[term][1])
+                elif filterType == 'attribute_value_different_persons':
+                    temp = attribute_value_different_persons(data,terms_dict[term][1])
+            else:
+                if filterType == 'four_eyes_principle': 
+                    temp = df_union(temp,four_eyes_principle(data,terms_dict[term][1]))
+                elif filterType == 'eventually_follows_2': 
+                    temp = df_union(temp,eventually_follows_2(data,terms_dict[term][1]))
+                elif filterType == 'eventually_follows_3': 
+                    temp = df_union(temp,eventually_follows_3(data,terms_dict[term][1]))
+                elif filterType == 'eventually_follows_4':
+                    temp = df_union(temp,eventually_follows_4(data,terms_dict[term][1]))
+                elif filterType == 'attribute_value_different_persons':
+                    temp = df_union(temp,attribute_value_different_persons(data,terms_dict[term][1]))
         
+            j += 1
+        
+        if i == 0:
+            result = temp
+        else:
+            result = df_intersection(temp, result)
+        
+        i+=1
 
-    
+
+def df_intersection(A, B):
+    return pd.merge(A, B, how ='inner', on =list(A.columns)).reset_index().drop(columns=["index"])
+
+def df_union(A,B):
+    return pd.concat([A,B]).drop_duplicates(list(A.columns)).reset_index().drop(columns=["index"])
 
 def four_eyes_principle(activites,df):
     filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites)
