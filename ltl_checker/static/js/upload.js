@@ -40,7 +40,19 @@ function changeCloudColor(){
         document.getElementById('browseFileButton').style.display = 'none';
 
         
+        // Reload button
+        let btn = document.createElement("rbutton");
+        btn.innerHTML =  '<button id="rbutton" name="btn"> <img src="static/images/reload.png"  width="45" height="45" />   '; 
+        btn.className = "rbutton";
+
+        btn.addEventListener("click", function () {
+            window.location.reload();
+        });
+       // btn.style.visibility = "hidden" //TODO
+        document.body.appendChild(btn);
+        
         //display file name
+        
         success.innerText += ' File successfully uploaded ';
         var fullPath = document.getElementById('fileField').value;
             if (fullPath) {
@@ -51,22 +63,17 @@ function changeCloudColor(){
                      }
                     
                     filena.innerText += filename ;
-            }
+                }
+                document.getElementById("success").style.visibility = "visible";
+                document.getElementById("filena").style.visibility = "visible";
 
-        // Reload button
-        let btn = document.createElement("rbutton");
-        btn.innerHTML =  '<button id="rbutton" name="btn"> <img src="static/images/reload.png"  width="45" height="45" />   '; 
-        btn.className = "rbutton";
-
-        btn.addEventListener("click", function () {
-            window.location.reload();
-        });
-        btn.style.visibility = "hidden" //TODO
-        document.body.appendChild(btn);
+         
+       
+         
 
         
-
-    } else {
+    
+    }else {
         // red color when the file is in the wrong format
         image.src = "./static/images/cloud-red.png";
         document.getElementById("nextButton").style.visibility = "hidden";
@@ -74,8 +81,27 @@ function changeCloudColor(){
         //text for wrong file
         fail.innerText += ' \n UPLOAD FAILED ! \n The file must be either *.csv or *.xes" ';
          // same as: document.getElementById('fail').innerText += 'textexample'
+
+         document.getElementById("success").style.visibility = "hidden";
+         document.getElementById("filena").style.visibility = "hidden";
+         document.getElementById("fail").style.visibility = "visible";
+         document.getElementById('browseFileButton').style.style.visibility = "visible";
+         
+         if (fail && fail.length > 1) {
+
+            // Dont add another one
+            return document.getElementById("fail").style.visibility = "hidden";
+         }
+         $('fail').one('fileFeild', function(e) {
+            alert('You will only see this once.');
+        });
+
+         
+   
+         
     }
 }
+
 
 
 uploadArea = document.getElementById("uploadArea")
