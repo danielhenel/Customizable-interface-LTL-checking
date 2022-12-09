@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/about-us.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main-styles.css')}}">
+    <title>LTL Checker</title>
+  </head>
+  <body>
+
+    <header>
+        <nav id="header-navbar" class="navbar navbar-expand-lg navbar-light ">
+          
+          <div class="container">
+              <div class="navbar-header">
+                <a href="/" class="float-left visible-md visible-lg">
+                  <div id="logo-img" alt="Logo image"></div>
+                </a>
+      
+                <div class="navbar-brand">
+                  <a href="/"><h1>LTL CHECKER</h1></a>
+                </div>
+  
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#collapsable-nav" aria-controls="collapsable-nav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              </div>
+            
+            <div id="collapsable-nav" class="collapse navbar-collapse">
+              <ul id="nav-list" class="nav navbar-nav navbar-right">
+                <li class="navHomeButton">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Help user guide
+                  </a>
+                  <div id="dropdown-list" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" data-toggle="modal" data-target="#popup1" href="#">Upload File</a> <!-- explain that user can either drag and drop a file or click on "Datei auswählen" + which file format can be accepted-->
+                    <a class="dropdown-item" data-toggle="modal" data-target="#popup2" href="#">Select feature</a> <!-- explain why selecting feature my be healpful for a better result -->
+                    <a class="dropdown-item" data-toggle="modal" data-target="#popup3" href="#">Select LTL rules</a> <!-- introduce the different LTL rules that can be applied -->
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href = "mailto: amine.kooli@rwth-aachen.de" target="_blank">Contact</a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/aboutUs">About us</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+  
+      </header>
+      <!-- Pop-up 1 -->
+    <div id="popup1" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title title-style">Upload File</p>
+                </div>
+                <div class="modal-body">
+                    <p> On the start page, you should upload an input file either in CSV or XES format. Any other file format could not be accepted.
+                      To do so you have two possibilities:<br> 
+                      <ul> 
+                        <li>
+                          Drag & drop a file from your device
+                        </li> 
+                        <li>
+                          Click on "Browse File" and choose a file.
+                        </li>
+                      </ul>   
+                    </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 1 -->
+    <!-- Pop-up 2 -->
+    <div id="popup2" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title title-style">Select features</p>
+                </div>
+                <div class="modal-body">
+                    <p> You could select required columns from the input data you have uploaded and rename them.</p>
+                    <p>Exactly one column should be selected for each required column. Otherwise the column will be not be selected for the next steps.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 2 -->
+    <!-- Pop-up 3 -->
+    <div id="popup3" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title title-style">select LTL Rules</p>
+                </div>
+                <div class="modal-body">
+                    <p> You can select different LTL filters and combine them with logical
+                      operators in a flexible way. </p>
+                    <p> Here is a subset of the LTL filters you can apply:<br> 
+                      <ul> 
+                        <li>
+                          Four eyes principle: two activities in a case cannot be executed from the same resource.
+                        </li> 
+                        <li>
+                          Attribute value different persons: indicates that an activity has been executed in a case by different resources, signaling the workload.
+                        </li>
+                        <li>
+                          Eventually follows: finds the cases where an activity has been followed in the near/distant future by another activity.
+                        </li>
+                      </ul>   
+                    </p>
+                    <p>
+                      Each filter is depending on some parameters (for example, the four eyes principle depends on two activities of the log).
+                    </p>
+                    <p>
+                      The different filters can be combined in AND/OR.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+      </div>
+    </div>
+    <!--end of popup 3 -->
+      
+      <div class="content-about-us">
+        <br>
+        <br>
+        <h1 >Meet Our Team</h1>
+        <br>
+        <div class="row text">
+          <div class="column">
+            <div class="card">
+              <img src= "../static/images/Daniel.jpg" alt="Daniel">
+              <div class="container">
+                <h2>Daniel Henel</h2>
+                <p class="title">Theory Expert, Advisor</p>
+                <p class="description">As far as I remember, my whole life is driven by the two 
+                  forces - music and computer science.  
+                  On the one hand I'm particularly interested in widely understood artificial intelligence, 
+                  networking, and cloud computing, but on the other hand I love playing the trumpet and singing.
+                  In my free time, I usually go to the gym or bake something.</p>
+                <p>daniel.henel@rwth-aachen.de</p>
+                <p>
+                  <a href = "mailto: daniel.henel@rwth-aachen.de" target="_blank">
+                    <button class="button">Contact</button>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        
+          <div class="column">
+            <div class="card">
+              <img src="../static/images/Amine.jpg" alt="Amine">
+              <div class="container">
+                <h2>Mohamed Amine Kooli</h2>
+                <p class="title">Communication Manager & Product owner</p>
+                <p class="description">Ever since I was a child, I have enjoyed transforming complex 
+                  problems into simple ones.I'm very interested in data science and artificial intelligence 
+                  and I try to improve my skills in it every day. Growing up in Tunisia and studying computer science 
+                  at RWTH Aachen University since 2020, I always try to divide my time into two major 
+                  paths that guide my life: studies and sport. When I'm not studying you can find me 
+                  either playing soccer or in my favorite corner of the house cooking or backing.
+                </p>
+                <p>amine.kooli@rwth-aachen.de</p>
+                <p>
+                  <a href = "mailto: amine.kooli@rwth-aachen.de" target="_blank">
+                    <button class="button">Contact</button>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="column">
+            <div class="card">
+              <img src="../static/images/Teodora.jpg" alt="Teodora">
+              <div class="container">
+                <h2>Teodora Staneva</h2>
+                <p class="title">Test Manager</p>
+                <p class="description">
+                  My name is Teodora Staneva and I am currently a bachelor student at RWTH Aachen University. 
+                  I am from Burgas, Bulgaria but I moved to Aachen to study Computer Science. 
+                  I am interested in Data Science and I am glad I am able to work on this project. 
+                  Other interest include movies, board games and hiking. 
+                  My absolute favorite hobbies are swimming and reading.
+                </p>
+                <p>teodora.staneva@rwth-aachen.de</p>
+                <p>
+                  <a href = "mailto: teodora.staneva@rwth-aachen.de" target="_blank">
+                    <button class="button">Contact</button>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        
+
+          <div class="column">
+            <div class="card">
+              <img src="../static/images/Ugo.jpg" alt="Ugo">
+              <div class="container">
+                <h2>Ugo Detaille</h2>
+                <p class="title">Scrum Master</p>
+                <p class="description">My name is Ugo Detaille and I am part of the LTL Conformance 
+                  Checking Team. As the designated Scrum Master, it is my job to keep track of the 
+                  progression of the code, as well as the team’s and the client‘s interests. I am the 
+                  connecting link between the developpers and the stakeholders. On the client’s side, my 
+                  immediate contact is mr. Berti. 
+                  Other than that, I am a Computer Science and Mathematics student at RWTH Aachen University. 
+                  I am 21 years old and I am from Cologne, Germany, but I live in Aachen now.</p>
+                <p>ugo.detaille@rwth-aachen.de</p>
+                <p>
+                  <a href = "mailto: ugo.detaille@rwth-aachen.de" target="_blank">
+                    <button class="button">Contact</button>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="card">
+              <img src="../static/images/Vishisht.jpg" alt="Vishisht">
+              <div class="container">
+                <h2>Vishisht Choudhary</h2>
+                <p class="title">Software Manager</p>
+                <p class="description">
+                  My name is Vishisht Choudhary I am a bachelors student in Computer Science 
+                  at RWTH Aachen University. In the field of Computer Science I am very 
+                  interested in Machine Learning and Data Science. Otherwise I enjoy playing 
+                  football and playing Video Games.
+                </p>
+                <p>vishisht.choudhary@rwth-aachen.de</p>
+                <p>
+                  <a href = "mailto: vishisht.choudhary@rwth-aachen.de" target="_blank">
+                    <button class="button">Contact</button>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="card">
+              <a href="https://www.rwth-aachen.de/cms/~a/root/" target="_blank" >
+                <div id="rwth-img" alt="rwth logo"></div>
+              </a>              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--bootstrap scripts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!--other scripts-->
+    <script src = "{{url_for('static', filename='js/upload.js')}}"></script>
+  </body>
+</html>

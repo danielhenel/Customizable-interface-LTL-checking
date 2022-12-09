@@ -1,11 +1,19 @@
 function loadDataFromFile(data){
 
-    data = JSON.parse(data)
-    column_names = Object.keys(data)
-    col_number = column_names.length
-    row_number = Object.keys(data[column_names[0]]).length
+    var data = JSON.parse(data)
+    var column_names = Object.keys(data)
+    var col_number = column_names.length
+    var row_number = Object.keys(data[column_names[0]]).length
 
     document.getElementById("previousButton").style.visibility = "visible";
+    document.getElementById("previousButton").onclick = function(){window.location.replace('/')}
+    document.getElementById("nextButton").onclick = function(){
+        var message = prepare_message(data)
+        fetch('/selectColumns/message', {
+        method: 'POST',
+        body: message
+        })
+    }
     dataTable = document.getElementById("data")
     var header = document.createElement('thead');
     var body = document.createElement('tbody')
@@ -29,6 +37,7 @@ function loadDataFromFile(data){
                 // select columns row
                 selectColumnsItem = document.createElement("td")
                 selectList = document.createElement('select')
+                selectList.style.width = "100%"
                 selectList.onchange = verifyRequiredColumns
 
                 caseID = document.createElement('option')
@@ -68,6 +77,7 @@ function loadDataFromFile(data){
                 renameColumnsItem = document.createElement("td")
                 input = document.createElement("input")
                 input.type = "text"
+                input.style.width = "100%"
                 renameColumnsItem.appendChild(input)
                 renameColumnsRow.appendChild(renameColumnsItem)
             }
@@ -90,6 +100,9 @@ function loadDataFromFile(data){
     row = document.createElement("tr")
     col = document.createElement("td")
     col.colSpan = "7"
+    col.style.textAlign = "left"
+    col.style.fontWeight = "bold"
+    col.style.color = "white"
     selectColumnsLabel = document.createElement("div")
     selectColumnsLabel.innerText = "Select columns:"
     col.appendChild(selectColumnsLabel)
@@ -101,6 +114,9 @@ function loadDataFromFile(data){
     row = document.createElement("tr")
     col = document.createElement("td")
     col.colSpan = "7"
+    col.style.textAlign = "left"
+    col.style.fontWeight = "bold"
+    col.style.color = "white"
     renameColumnsLabel = document.createElement("div")
     renameColumnsLabel.innerText = "Rename columns:"
     col.appendChild(renameColumnsLabel)
@@ -151,4 +167,39 @@ else{
     document.getElementById("nextButton").style.visibility = "hidden";
 }
 
+}
+
+
+function prepare_message(data){
+    
+    var column_names = Object.keys(data)
+    var col_number = column_names.length
+    
+    var columnsToDrop = []
+    var renameColumns = {}
+    var selectColumnsRow = document.getElementById("selectColumnsRow")
+    var renameColumnsRow = document.getElementById("renameColumnsRow")
+    
+    for(var i = 0; i < col_number; i++){
+        // columns to drop
+        var colName = column_names[i]
+        var colBox = selectColumnsRow.childNodes[i]
+        var colSelect = colBox.firstChild
+        var value = colSelect.value
+        if(value == "drop"){
+            columnsToDrop.push(colName)
+        }
+        else{
+            // columns to rename
+            colBox = renameColumnsRow.childNodes[i]
+            var colText = colBox.firstChild
+            value = colText.value
+            if(value != ""){
+                renameColumns[colName] = value
+            }
+        }
+    }
+
+    var message = JSON.stringify([columnsToDrop,renameColumns])
+    return message
 }
