@@ -4,6 +4,7 @@ import pm4py
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import json
 
 data = None
 file = None
@@ -22,10 +23,16 @@ def aboutUs():
 def errorPage(): 
     return render_template('error.html')
 
-@app.route('/selectColumns',methods = ['POST','GET'])
+@app.route('/selectColumns/message', methods = ['POST'])
+def afterColumnsSelection():
+    message = json.loads(request.data)
+    drop_cols = message[0]
+    new_names = message[1]
+    renameColumns(drop_cols,new_names)
 
+@app.route('/selectColumns',methods = ['POST','GET'])
 def upload():
-    try: 
+    try:
         global data
         global file
         file = request.files['file']
@@ -33,8 +40,6 @@ def upload():
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
         return render_template('error.html', message = 'Your data is empty!!!')
-
-
 
 
 def convertInput():
