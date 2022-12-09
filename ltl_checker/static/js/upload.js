@@ -17,6 +17,7 @@ function changeCloudColor(){
 
     format = filename.slice(-3)
 
+    
     if (format == "csv" || format=="xes"){
         // green color when the file is in the required format
         image.src = "./static/images/cloud-green.png";
