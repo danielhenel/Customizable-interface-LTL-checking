@@ -64,7 +64,7 @@ def goBackToSelectColumns():
 
 @app.route('/results',methods = ['POST','GET'])
 def results(): 
-    return render_template('results.html',data=json.dumps([data.head(6).to_json(),len(data.index)]))
+    return render_template('results.html',data=json.dumps([result.head(6).to_json(),len(result.index)]))
 
 @app.route('/selectColumns',methods = ['POST','GET'])
 def upload():
@@ -187,7 +187,7 @@ def calc_result() -> pd.DataFrame:
         
         i+=1
 
-    data.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)   
+    result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)   
 
 
 
@@ -198,23 +198,24 @@ def df_union(A,B):
     return pd.concat([A,B]).drop_duplicates(list(A.columns)).reset_index().drop(columns=["index"])
 
 def four_eyes_principle(df,activites):
-    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites)
+    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites).reset_index().drop(columns=["index"])
+    print(filtered_log)
     return filtered_log
 
 def eventually_follows_2(df,activities): 
-    filtered_log = ltl.ltl_checker.A_eventually_B(df,*activities)
+    filtered_log = ltl.ltl_checker.A_eventually_B(df,*activities).reset_index().drop(columns=["index"])
     return filtered_log
 
 def eventually_follows_3(df,activities):
-    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities)
+    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities).reset_index().drop(columns=["index"])
     return filtered_log
 
 def eventually_follows_4(df,activities):
-    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities)
+    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities).reset_index().drop(columns=["index"])
     return filtered_log
 
 def attribute_value_different_persons(df,activities):
-    filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities)
+    filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
     return filtered_log
 
 
