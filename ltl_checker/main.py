@@ -81,12 +81,14 @@ def tupleToList(tuple) -> list:
 
 def calc_result(list_of_terms, dictionary, raw_log) -> pd.DataFrame:
     #define log which is to be returned
-    ret_log = raw_log
+    ret_log = raw_log.copy()
+    temp = [] 
     for key in dictionary:
         #generate the symbols for sympy 
         globals()[key] = symbols('{0}'.format(key))
-    
-    for key2 in dictionary: 
+    # for each literal in the clause a filtered log will be generated  
+    # and then saved into temp.
+    for key2 in dictionary:   
         filterType = dictionary[key2]
         if filterType == 'four_eyes_principle': 
             ret_log = four_eyes_principle(ret_log,dictionary[key2])
@@ -96,7 +98,11 @@ def calc_result(list_of_terms, dictionary, raw_log) -> pd.DataFrame:
             ret_log = eventually_follows_3(ret_log,dictionary[key2])
         elif filterType == 'eventually_follows_4':
             ret_log = eventually_follows_4(ret_log,dictionary[key2])
-
+        temp.append(ret_log)
+    #combine all the generated filtered_logs from temp
+    ret_log = pd.concat(temp)
+    #delete all duplicate rows
+    ret_log.drop_duplicates(keep=False)
     return ret_log
         
 
