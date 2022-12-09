@@ -5,7 +5,7 @@ leftBracketCounter = 0
 rightBracketCounter = 0
 emptyFilter = false
 refresh = false
-attributes = ["A","B","C","D"]
+attributes = data
 
 document.getElementById("previousButton").style.visibility = "visible";
 document.getElementById("previousButton").onclick = function(){window.location.replace('/selectColumns2')}
@@ -14,8 +14,7 @@ document.getElementById("nextButton").onclick = function(){
     fetch('/selectFilters/message', {
     method: 'POST',
     body: message
-    })
-    window.location.replace('/results')
+    }).then(function(){window.location.replace('/results')})   
 }
 
 createFirstRow()
