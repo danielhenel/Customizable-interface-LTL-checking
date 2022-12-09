@@ -77,16 +77,17 @@ h2 {
   : bold;
 
  }
-/*Reload Button */
- #rbutton {
-  display: block;
-  background-color: transparent;
-  border: none;
-  /* center the button */
-  margin: 0;
-  position: absolute;
-  top: 80%;
-  left: 65%;
+
+ /*Reload Button */
+  #rbutton {
+   display: block;
+   background-color: transparent;
+   border: none;
+   /* center the button */
+   margin: 0;
+   position: absolute;
+   top: 80%;
+   left: 65%;
   
 }
 

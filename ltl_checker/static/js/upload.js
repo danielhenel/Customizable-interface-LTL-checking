@@ -79,28 +79,30 @@ function changeCloudColor(){
         document.getElementById("nextButton").style.visibility = "hidden";
         //alert("The file should be in .csv or .xes format")
         //text for wrong file
+        document.getElementById("success").style.visibility = "hidden";
+        document.getElementById("filena").style.visibility = "hidden";
+        document.getElementById("fail").style.visibility = "visible";
+        document.getElementById('browseFileButton').style.style.visibility = "visible";
+        
+        if (fail && fail.length > 1) {
+
+           // Dont add another one
+           return document.getElementById("fail").style.visibility = "hidden";
+        }
+        $('fail').one('fileFeild', function(e) {
+           alert('You will only see this once.');
+       });
+
+        
+  
+        
+   }
+}
         fail.innerText += ' \n UPLOAD FAILED ! \n The file must be either *.csv or *.xes" ';
          // same as: document.getElementById('fail').innerText += 'textexample'
 
-         document.getElementById("success").style.visibility = "hidden";
-         document.getElementById("filena").style.visibility = "hidden";
-         document.getElementById("fail").style.visibility = "visible";
-         document.getElementById('browseFileButton').style.style.visibility = "visible";
          
-         if (fail && fail.length > 1) {
-
-            // Dont add another one
-            return document.getElementById("fail").style.visibility = "hidden";
-         }
-         $('fail').one('fileFeild', function(e) {
-            alert('You will only see this once.');
-        });
-
-         
-   
-         
-    }
-}
+        
 
 
 
