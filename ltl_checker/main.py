@@ -106,13 +106,16 @@ def renameColumns(columns_to_drop, columns_to_rename):
 
 def simplifyExpression(expr) -> list: #this function returns a list of all the conjunctively connected clauses in the filter expression
     #convert expression to CNF
-    cnf = sp.to_cnf(expr)
+    cnf = sp.to_cnf(expr, True)
     # seperate different Clauses in CNF
     clauses = cnf.args
     clause_list = tupleToList(clauses)
     #convert clauses in list to list of literals
-    for i in range(0,len(clause_list)-1):
-        clause_list[i] = tupleToList(clause_list[i].args)
+    for i in range(0,len(clause_list)):
+        if(len(clause_list[i].args) != 0):
+            clause_list[i] = tupleToList(clause_list[i].args)
+        else:
+            clause_list[i] = [clause_list[i]]
     return clause_list
 
 def tupleToList(tuple) -> list: 
@@ -148,6 +151,8 @@ def calc_result(list_of_terms, dictionary, raw_log) -> pd.DataFrame:
             ret_log = eventually_follows_3(ret_log,dictionary[key2])
         elif filterType == 'eventually_follows_4':
             ret_log = eventually_follows_4(ret_log,dictionary[key2])
+        elif filterType == 'attribute_value_different_persons':
+            ret_log = attribute_value_different_persons(ret_log,dictionary[key2])
         temp.append(ret_log)
     #combine all the generated filtered_logs from temp
     ret_log = pd.concat(temp)
@@ -174,8 +179,9 @@ def eventually_follows_4(activities,df):
     filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities)
     return filtered_log
 
-
-
+def attribute_value_different_persons(activities, df):
+    filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities)
+    return filtered_log
 
 
 if __name__ == '__main__':
