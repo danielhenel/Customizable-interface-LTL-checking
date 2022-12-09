@@ -66,7 +66,7 @@
       <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title">Upload File</p>
+                    <p class="modal-title title-style">Upload File</p>
                 </div>
                 <div class="modal-body">
                     <p> On the start page, you should upload an input file either in CSV or XES format. Any other file format could not be accepted.
@@ -93,11 +93,11 @@
       <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title">Select features</p>
+                    <p class="modal-title title-style">Select features</p>
                 </div>
                 <div class="modal-body">
-                    <p> You could select required columns from the input data you have uploaded and rename them.
-                      Exactly one column should be selected for each required column </p>
+                    <p> You could select required columns from the input data you have uploaded and rename them.</p>
+                    <p>Exactly one column should be selected for each required column. Otherwise the column will be not be selected for the next steps.</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -111,11 +111,30 @@
       <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title">select LTL Rules</p>
+                    <p class="modal-title title-style">select LTL Rules</p>
                 </div>
                 <div class="modal-body">
                     <p> You can select different LTL filters and combine them with logical
                       operators in a flexible way. </p>
+                    <p> Here is a subset of the LTL filters you can apply:<br> 
+                      <ul> 
+                        <li>
+                          Four eyes principle: two activities in a case cannot be executed from the same resource.
+                        </li> 
+                        <li>
+                          Attribute value different persons: indicates that an activity has been executed in a case by different resources, signaling the workload.
+                        </li>
+                        <li>
+                          Eventually follows: finds the cases where an activity has been followed in the near/distant future by another activity.
+                        </li>
+                      </ul>   
+                    </p>
+                    <p>
+                      Each filter is depending on some parameters (for example, the four eyes principle depends on two activities of the log).
+                    </p>
+                    <p>
+                      The different filters can be combined in AND/OR.
+                    </p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
