@@ -9,7 +9,9 @@ import sympy as sp
 import sympy.abc
 from sympy.abc import _clash1
 from sympy.core.sympify import sympify
+from sympy import *
 import lxml
+import pm4py.algo.filtering.pandas.ltl as ltl
 
 data = None
 file = None
@@ -102,9 +104,6 @@ def renameColumns(columns_to_drop, columns_to_rename):
     return data
 
 
-def getActivities(dataframe): 
-    return dataframe['concept:name'].unique()
-
 def simplifyExpression(expr) -> list: #this function returns a list of all the conjunctively connected clauses in the filter expression
     #convert expression to CNF
     cnf = sp.to_cnf(expr)
@@ -113,7 +112,7 @@ def simplifyExpression(expr) -> list: #this function returns a list of all the c
     clause_list = tupleToList(clauses)
     #convert clauses in list to list of literals
     for i in range(0,len(clause_list)-1):
-        clause_list[i] = tupleToList(clause_list[i].args)   
+        clause_list[i] = tupleToList(clause_list[i].args)
     return clause_list
 
 def tupleToList(tuple) -> list: 
@@ -121,6 +120,63 @@ def tupleToList(tuple) -> list:
     for element in tuple:
         retList.append(element)
     return retList
+
+    
+
+def getActivities(dataframe): 
+    return dataframe['concept:name'].unique()
+
+
+
+
+def calc_result(list_of_terms, dictionary, raw_log) -> pd.DataFrame:
+    #define log which is to be returned
+    ret_log = raw_log.copy()
+    temp = [] 
+    for key in dictionary:
+        #generate the symbols for sympy 
+        globals()[key] = symbols('{0}'.format(key))
+    # for each literal in the clause a filtered log will be generated  
+    # and then saved into temp.
+    for key2 in dictionary:   
+        filterType = dictionary[key2]
+        if filterType == 'four_eyes_principle': 
+            ret_log = four_eyes_principle(ret_log,dictionary[key2])
+        elif filterType == 'eventually_follows_2': 
+            ret_log = eventually_follows_2(ret_log,dictionary[key2])
+        elif filterType == 'eventually_follows_3': 
+            ret_log = eventually_follows_3(ret_log,dictionary[key2])
+        elif filterType == 'eventually_follows_4':
+            ret_log = eventually_follows_4(ret_log,dictionary[key2])
+        temp.append(ret_log)
+    #combine all the generated filtered_logs from temp
+    ret_log = pd.concat(temp)
+    #delete all duplicate rows
+    ret_log.drop_duplicates(keep=False)
+    return ret_log
+        
+
+    
+
+def four_eyes_principle(activites,df):
+    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites)
+    return filtered_log
+
+def eventually_follows_2(activities,df): 
+    filtered_log = ltl.ltl_checker.A_eventually_B(df,*activities)
+    return filtered_log
+
+def eventually_follows_3(activities,df):
+    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities)
+    return filtered_log
+
+def eventually_follows_4(activities,df):
+    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities)
+    return filtered_log
+
+
+
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

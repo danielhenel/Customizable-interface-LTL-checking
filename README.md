@@ -65,14 +65,20 @@ If there are any questions please feel free to get in touch with our communicati
 
 
 ## Documentation: 
-### Python functions:  
+### Python functions:
+
+
 * upload() <br> This function takes in the uploaded file 'file' from the client from the firsth html form (upload.html). Then, the file is converted into a dataframe by calling convertInput() in order to work with it as a pandas dataframe. The function returns the next html page (columns-selection.html) and it returns the dataframe to the js file called columns-selection.js, which requires the conversion of said dataframe into a _json type of file, but only the first five rows are given to the js file, because only those five will be depicted in the second frame as a overview. 
 
 * convertInput() <br> This function checks the file type of the uploaded file (i.e. .csv or .xes file) and returns the corresponding dataframe by calling the pandas package function pd.read_csv or the pm4py functions pm4py.read_xes and pm4py.convert_to_dataframe.
 
  
 
+ 
+
 ### JS functions: 
+
+
 * changeCloudColor()<br>On the first html page (upload.html) we have designed a cloud that according to its color specifies the (in)correct state of the uploaded file. In case that the uploaded file is either a .csv or a .xes type of file, the cloud will change its color to green, otherwise to red. In case the uploaded file is not of the right type, an alert notification appears stating "The file should be in 
 .csv or .xes format". 
 
