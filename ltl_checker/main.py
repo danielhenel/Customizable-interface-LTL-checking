@@ -7,10 +7,14 @@ from datetime import datetime
 import json
 import sympy as sp
 import sympy.abc
+from sympy.abc import _clash1
+from sympy.core.sympify import sympify
 import lxml
 
 data = None
 file = None
+expression = None
+terms_dict = None
 
 app = Flask(__name__)
 
@@ -34,6 +38,24 @@ def afterColumnsSelection():
     new_names = message[1]
     renameColumns(drop_cols,new_names)
     return data.to_json()
+
+@app.route('/selectFilters')
+def loadSelectFiltersPage():
+    return render_template('filters-selection.html')
+
+@app.route('/selectFilters/message', methods = ['POST'])
+def afterFilterSelection():
+    global expression
+    global terms_dict
+    message = json.loads(request.data)
+    terms_dict = message[0]
+    expression = message[1]
+    expression = sympify(expression,_clash1)
+    return 
+
+@app.route('/selectColumns2',methods = ['POST','GET'])
+def goBackToSelectColumns(): 
+    return render_template('columns-selection.html',data=data.head(5).to_json())
 
 @app.route('/selectColumns',methods = ['POST','GET'])
 def upload():
