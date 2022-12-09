@@ -28,10 +28,12 @@ def errorPage():
 
 @app.route('/selectColumns/message', methods = ['POST'])
 def afterColumnsSelection():
+    global data
     message = json.loads(request.data)
     drop_cols = message[0]
     new_names = message[1]
     renameColumns(drop_cols,new_names)
+    return data.to_json()
 
 @app.route('/selectColumns',methods = ['POST','GET'])
 def upload():
@@ -61,10 +63,11 @@ def convertInput():
     else: 
        raise Exception('File Wrong format or empty')
 
-def renameColumns(columns_to_drop, columns_to_rename, data):
+def renameColumns(columns_to_drop, columns_to_rename):
     # we define mandatory_columns as the columns the user cannot drop and therefore
     #ignore all selections of such columns
-    global mandatory_columns 
+    global mandatory_columns
+    global data
     mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
     #rename the dataframe by handing the rename function a dictionary
     data.rename(columns=columns_to_rename, inplace = True)
