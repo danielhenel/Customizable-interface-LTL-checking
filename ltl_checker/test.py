@@ -43,6 +43,7 @@ class getActivitiesTestCase(unittest.TestCase):
         self.assertTrue(isNotDuplicate(df, getActivities(df)))
 
 
+
 class UploadtestCase(unittest.TestCase): 
 
     def testInputFormat(self): 
