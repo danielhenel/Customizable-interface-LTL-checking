@@ -69,6 +69,32 @@ def renameColumns(columns_to_drop, columns_to_rename, data):
     return data
 
 
+def simplifyExpression(expr) -> list: #this function returns a list of all the conjunctively connected clauses in the filter expression
+    #convert expression to CNF
+    cnf = sp.to_cnf(expr)
+    # seperate different Clauses in CNF
+    clauses = cnf.args
+    clause_list = tupleToList(clauses)
+    #convert clauses in list to list of literals
+    for i in range(0,len(clause_list)-1):
+        clause_list[i] = tupleToList(clause_list[i].args)
+    return clause_list
+
+def tupleToList(tuple) -> list: 
+    retList = []
+    for element in tuple:
+        retList.append(element)
+    return retList
+
+
+def evaluateCNFFilter(cnf_list):
+    for clause in cnf_list:
+        bool = False
+        for literal in clause:
+            
+
+
+
 def getActivities(dataframe): 
     return dataframe['concept:name'].unique()
 
