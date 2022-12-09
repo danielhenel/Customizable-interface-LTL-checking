@@ -57,20 +57,25 @@ def convertInput():
         return raw_log
 
 
-def renameColumns(columns_to_drop, columns_to_rename):
+def renameColumns(columns_to_drop, columns_to_rename, data):
     # we define mandatory_columns as the columns the user cannot drop and therefore
     #ignore all selections of such columns
-    global data 
     global mandatory_columns 
-    mandatory_columns = ["Case ID", "Activity Name", "Time Stamp" , "Resource"]
+    mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
+    #rename the dataframe by handing the rename function a dictionary
+    data.rename(columns=columns_to_rename, inplace = True)
+
     for column in columns_to_drop:
         if(column in mandatory_columns): 
             pass
         else:
-            data = data.drop(column, axis=1)
-    #rename the dataframe by handing the rename function a dictionary
-    data = data.rename(columns=columns_to_rename, inplace=True)
-    
+            data.drop(column, axis=1, inplace = True)
+    return data
+
+
+def getActivities(dataframe): 
+    return dataframe['concept:name'].unique()
+
     
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
