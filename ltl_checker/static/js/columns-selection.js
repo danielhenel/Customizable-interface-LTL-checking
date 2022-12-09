@@ -13,6 +13,7 @@ function loadDataFromFile(data){
         method: 'POST',
         body: message
         })
+        window.location.replace('/selectFilters')
     }
     dataTable = document.getElementById("data")
     var header = document.createElement('thead');
