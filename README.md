@@ -55,11 +55,7 @@ If there are any questions please feel free to get in touch with our communicati
 
 ### TODO in the next sprint:
 
-##Documentation: 
-Python functions:  
 
-## Sprint 1
-1) def: upload -- this function takes in the uploaded file 'file' from the client from the firsth html form (upload.html). Then, the file is converted into a dataframe by calling convertInput() in order to work with it as a pandas dataframe. The function returns the next html page (columns-selection.html) and it returns the dataframe to the js file called columns-selection.js, which requires the conversion of said dataframe into a _json type of file, but only the first five rows are given to the js file, because only those five will be depicted in the second frame as a overview. 
 
 
 ## Documentation: 
