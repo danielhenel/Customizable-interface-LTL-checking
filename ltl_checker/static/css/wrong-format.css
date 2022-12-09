@@ -1,0 +1,35 @@
+#wrongArea{
+    width: 40rem;
+    height: 30rem;
+    background-color: white;
+    border: 1px solid #000000;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 30px;
+  }
+  
+  #wrong-image{
+    width: 20rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+   
+  /* Title */
+  #title {
+    color: white;
+    text-align: center;
+  }
+  
+  h1{
+    font-weight: bold;
+    font-size: 50px;
+    text-shadow: 1px 1px #262424
+  }
+  
+  /* Text in Wrong format Card */
+  h2 {
+    color: red;
+    text-align: center;
+    font-size: 27px;
+    font-weight: bold;
+   }

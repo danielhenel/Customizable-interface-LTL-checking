@@ -4,6 +4,7 @@ import pm4py
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import json
 import sympy as sp
 from sympy import *
 import lxml
@@ -26,21 +27,25 @@ def aboutUs():
 def errorPage(): 
     return render_template('error.html')
 
-@app.route('/selectColumns',methods = ['POST','GET'])
+@app.route('/selectColumns/message', methods = ['POST'])
+def afterColumnsSelection():
+    global data
+    message = json.loads(request.data)
+    drop_cols = message[0]
+    new_names = message[1]
+    renameColumns(drop_cols,new_names)
+    return data.to_json()
 
+@app.route('/selectColumns',methods = ['POST','GET'])
 def upload():
-    try: 
+    try:
         global data
         global file
         file = request.files['file']
         data = convertInput()
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
-        return render_template('error.html', message = 'Your <CSV data is empty!!!')
-    except lxml.etree.XMLSyntaxError:
-        return render_template('error.html', message = 'Your XES data is empty!!!')
-
-
+        return render_template('error.html', message = 'Your data is empty!!!')
 
 
 def convertInput():
@@ -50,8 +55,7 @@ def convertInput():
         raw_log = pd.read_csv(file, sep = None, engine = 'python')
         return raw_log
     elif file.filename.endswith('.xes'): 
-        pass #TODO: 
-        temp_path = os.path.join(os.getcwd(),'ltl_checker','uploads','raw_log.xes') #temporarily save file for conversion
+        temp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'uploads','raw_log.xes') #temporarily save file for conversion
         file.save(temp_path)
         raw_log = pm4py.read_xes(temp_path)
         raw_log = pm4py.convert_to_dataframe(raw_log)
@@ -60,6 +64,25 @@ def convertInput():
     else: 
        raise Exception('File Wrong format or empty')
 
+def renameColumns(columns_to_drop, columns_to_rename):
+    # we define mandatory_columns as the columns the user cannot drop and therefore
+    #ignore all selections of such columns
+    global mandatory_columns
+    global data
+    mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
+    #rename the dataframe by handing the rename function a dictionary
+    data.rename(columns=columns_to_rename, inplace = True)
+
+    for column in columns_to_drop:
+        if(column in mandatory_columns): 
+            pass
+        else:
+            data.drop(column, axis=1, inplace = True)
+    return data
+
+
+def getActivities(dataframe): 
+    return dataframe['concept:name'].unique()
 
 def simplifyExpression(expr) -> list: #this function returns a list of all the conjunctively connected clauses in the filter expression
     #convert expression to CNF
@@ -131,3 +154,5 @@ def eventually_follows_4(activities,df):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
+
+    
