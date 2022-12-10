@@ -167,7 +167,7 @@ function createSelectFilterList(){
     selectList.appendChild(item)
 
     item = document.createElement('option')
-    item.value = "attribute_value_different_person"
+    item.value = "attribute_value_different_persons"
     item.innerText = "Attribute value different persons"
     selectList.appendChild(item)
 
@@ -306,7 +306,7 @@ function filterSelected(selectList){
 
     visibility = {
         "four_eyes_principle":["visible","visible","hidden","hidden"],
-        "attribute_value_different_person":["visible","hidden","hidden","hidden"],
+        "attribute_value_different_persons":["visible","hidden","hidden","hidden"],
         "eventually_follows_2":["visible","visible","hidden","hidden"],
         "eventually_follows_3":["visible","visible","visible","hidden"],
         "eventually_follows_4":["visible","visible","visible","visible"],
