@@ -10,7 +10,6 @@ import sympy.abc
 from sympy.abc import _clash1
 from sympy.core.sympify import sympify
 from sympy import *
-import lxml
 import pm4py.algo.filtering.pandas.ltl as ltl
 
 data = None
@@ -203,15 +202,15 @@ def four_eyes_principle(df,activites):
     return filtered_log
 
 def eventually_follows_2(df,activities): 
-    filtered_log = ltl.ltl_checker.A_eventually_B(df,*activities).reset_index().drop(columns=["index"])
+    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B(df,*activities)).reset_index().drop(columns=["index"])
     return filtered_log
 
 def eventually_follows_3(df,activities):
-    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities).reset_index().drop(columns=["index"])
+    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities)).reset_index().drop(columns=["index"])
     return filtered_log
 
 def eventually_follows_4(df,activities):
-    filtered_log = ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities).reset_index().drop(columns=["index"])
+    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities)).reset_index().drop(columns=["index"])
     return filtered_log
 
 def attribute_value_different_persons(df,activities):
