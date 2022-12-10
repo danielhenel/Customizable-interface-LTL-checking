@@ -62,7 +62,7 @@ If there are any questions please feel free to get in touch with our communicati
 * Filters combinations <br>
 Our idea is described in the [/research/filter_combinations.ipynb](./research/filter_combinations.ipynb) file
 
-* Our test data set: [detail_incident_activity.csv](.\research\logs\detail_incident_activity.csv) <br>
+* Our test data set: [detail_incident_activity.csv](./reseach/logs/detail_incident_activity.csv) <br>
 ![](ltl_checker/static/images/select-columns2.png)
 
 * The "Filters Selection" page <br>
