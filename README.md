@@ -62,8 +62,8 @@ If there are any questions please feel free to get in touch with our communicati
 * Filters combinations <br>
 Our idea is described in the [/research/filter_combinations.ipynb](./research/filter_combinations.ipynb) file
 
-* Help User Guide <br>
-![](ltl_checker/static/images/user-guide.png)
+* Our test data set: [detail_incident_activity.csv](.\research\logs\detail_incident_activity.csv) <br>
+![](ltl_checker/static/images/select-columns2.png)
 
 * The "Filters Selection" page <br>
 ![](ltl_checker/static/images/select-filters.png)
@@ -71,6 +71,8 @@ Our idea is described in the [/research/filter_combinations.ipynb](./research/fi
 * The initial version of the "Results" page <br>
 ![](ltl_checker/static/images/results.png)
 
+* Help User Guide <br>
+![](ltl_checker/static/images/user-guide.png)
 
 ## Documentation: 
 
