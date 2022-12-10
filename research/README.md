@@ -10,6 +10,6 @@ Inside the environment install:
 
 [Jupyter Lab](https://jupyter.org/install)
 
-<p><code>pip install pandas jupyterlab pm4py</code></p>
+<p><code>pip install pandas jupyterlab pm4py sympy</code></p>
 
 ## 3. Run jupyter lab from working directory

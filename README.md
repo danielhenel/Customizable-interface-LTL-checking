@@ -33,6 +33,7 @@ following documents:
 * [Project Initiation Documents](./documentation/Project%20Initiation%20Document.pdf)
 * [Requirements Engineering Document](./documentation/Requirements%20Engineering.pdf)
 * [Phase Review - Sprint 1](./documentation/Phase%20Review%20-%20Sprint%201.pdf)
+* [Phase Review - Sprint 2](./documentation/Phase%20Review%20-%20Sprint%202.pdf)
 
 If there are any questions please feel free to get in touch with our communications manager
 [Mohamed](amine.kooli@rwth-aachen.de)
@@ -43,17 +44,32 @@ If there are any questions please feel free to get in touch with our communicati
 * Docker configuration, project setup
 
 * The "Upload" page
-<br> Currently it works only for .csv files. The columns must be separated by commas.
+
  ![](ltl_checker/static/images/upload.png)
 
 * The "Columns Selection" page
+
 ![](ltl_checker/static/images/select_columns.png)
 
 * The "About Us" page
+
 ![](ltl_checker/static/images/about_us_1.png)
 ![](ltl_checker/static/images/about_us_2.png)
 
-### TODO in the next sprint:
+## Sprint 2
+### DONE:
+
+* Filters combinations <br>
+Our idea is described in the [/research/filter_combinations.ipynb](./research/filter_combinations.ipynb) file
+
+* Help User Guide <br>
+![](ltl_checker/static/images/user-guide.png)
+
+* The "Filters Selection" page <br>
+![](ltl_checker/static/images/select-filters.png)
+
+* The initial version of the "Results" page <br>
+![](ltl_checker/static/images/results.png)
 
 
 ## Documentation: 
@@ -86,16 +102,13 @@ eventually_follows_3(param1,param2), eventually_follows_4(param1,param2) : helpe
 
  
 
-## JS functions: 
-
-## Sprint 1
+## JS functions: file
 
 * changeCloudColor()<br>On the first html page (upload.html) we have designed a cloud that according to its color specifies the (in)correct state of the uploaded file. In case that the uploaded file is either a .csv or a .xes type of file, the cloud will change its color to green, otherwise to red. In case the uploaded file is not of the right type, an alert notification appears stating "The file should be in 
 .csv or .xes format". 
 
 * loadDataFromFile()<br> The parameter "data" is given to the function. "data" contains the first five entries of the event log from the uploaded file and the header. Then, an "empty table" is declared in the columns-selection.html file, which later will contain the overview of the first five columns. Now, the function converts the dataframe we have generated earlier into a .html readable format. The components of the table are mainly created by usage of the js function "createElement". Through a for-loop, the rows and columns are created iteratively: First, the first row is declared as the header. The for loop also generates the specific table elements (e.g. "td", "tr", "th"...). The function also contains the definition of text input fields to change a column's name. Yet, that functionality has not been implemented yet.
 
-## Sprint 2 
 
 
 
