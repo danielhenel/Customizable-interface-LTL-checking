@@ -72,7 +72,6 @@ def upload():
         global file
         file = request.files['file']
         data = convertInput()
-        data.drop_duplicates(list(data.columns))
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
         return render_template('error.html', message = 'Your data is empty!!!')
@@ -108,6 +107,7 @@ def renameColumns(columns_to_drop, columns_to_rename):
             pass
         else:
             data.drop(column, axis=1, inplace = True)
+    data = data.drop_duplicates(list(data.columns))
     return data
 
 def get_args(cnf_expr):
@@ -115,8 +115,10 @@ def get_args(cnf_expr):
     if cnf_str.find("(") == -1:
         if cnf_str.find("&") != -1:
             return (cnf_expr.args,"&")
-        else:
+        elif cnf_str.find("|") != -1:
             return (tuple([cnf_expr]),"|")
+        else:
+            return ([cnf_expr],None)
     else:
         return (cnf_expr.args,None)
 
@@ -127,7 +129,6 @@ def simplifyExpression(expr) -> list: #this function returns a list of all the c
     # seperate different Clauses in CNF
     clauses, operator = get_args(cnf)
     clause_list = tupleToList(clauses)
-    
     #convert clauses in list to list of literals
     for i in range(0,len(clause_list)):
         if(len(clause_list[i].args) != 0):
@@ -137,6 +138,8 @@ def simplifyExpression(expr) -> list: #this function returns a list of all the c
                 clause_list[i] = [clause_list[i]]
             elif operator == "|":
                 clause_list[i] = tupleToList(clause_list[i].args)
+            else:
+                clause_list[i] = [clause_list[i]]
     return clause_list
 
 
