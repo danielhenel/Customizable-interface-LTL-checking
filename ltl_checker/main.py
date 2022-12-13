@@ -186,10 +186,12 @@ def calc_result():
     result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)   
 
 def df_intersection(A, B):
-    return pd.merge(A, B, how ='inner', on =list(A.columns)).reset_index().drop(columns=["index"])
+    cols = list(A.columns)
+    return pd.merge(A, B, how='inner', on=cols).reset_index().drop(columns=["index"])
 
 def df_union(A,B):
-    return pd.concat([A,B]).drop_duplicates(list(A.columns)).reset_index().drop(columns=["index"])
+    cols = list(A.columns)
+    return pd.concat([A,B]).drop_duplicates(cols).reset_index().drop(columns=["index"])
 
 def four_eyes_principle(df,activites):
     filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites).reset_index().drop(columns=["index"])
