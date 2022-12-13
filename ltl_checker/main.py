@@ -153,7 +153,7 @@ def getActivities():
     global data
     return (data['concept:name'].unique()).tolist()
 
-def calc_result() -> pd.DataFrame:
+def calc_result():
     global data
     global terms_dict
     global expression
@@ -164,27 +164,18 @@ def calc_result() -> pd.DataFrame:
         for term in terms:
             key = str(term)
             filterType = terms_dict[key][0]
-
             if temp is None:
                 if filterType == 'four_eyes_principle': 
                     temp = four_eyes_principle(data,terms_dict[key][1])
-                elif filterType == 'eventually_follows_2': 
-                    temp = eventually_follows_2(data,terms_dict[key][1])
-                elif filterType == 'eventually_follows_3': 
-                    temp = eventually_follows_3(data,terms_dict[key][1])
-                elif filterType == 'eventually_follows_4':
-                    temp = eventually_follows_4(data,terms_dict[key][1])
+                elif filterType in['eventually_follows_2', 'eventually_follows_3','eventually_follows_4']:
+                    temp = eventually_follows(data,terms_dict[key][1])
                 elif filterType == 'attribute_value_different_persons':
                     temp = attribute_value_different_persons(data,terms_dict[key][1])
             else:
                 if filterType == 'four_eyes_principle': 
                     temp = df_union(temp,four_eyes_principle(data,terms_dict[key][1]))
-                elif filterType == 'eventually_follows_2': 
-                    temp = df_union(temp,eventually_follows_2(data,terms_dict[key][1]))
-                elif filterType == 'eventually_follows_3': 
-                    temp = df_union(temp,eventually_follows_3(data,terms_dict[key][1]))
-                elif filterType == 'eventually_follows_4':
-                    temp = df_union(temp,eventually_follows_4(data,terms_dict[key][1]))
+                elif filterType in['eventually_follows_2', 'eventually_follows_3','eventually_follows_4']:
+                    temp = df_union(temp,eventually_follows(data,terms_dict[key][1]))
                 elif filterType == 'attribute_value_different_persons':
                     temp = df_union(temp,attribute_value_different_persons(data,terms_dict[key][1]))        
         if result is None:
@@ -193,8 +184,6 @@ def calc_result() -> pd.DataFrame:
             result = df_intersection(temp, result)
 
     result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)   
-
-
 
 def df_intersection(A, B):
     return pd.merge(A, B, how ='inner', on =list(A.columns)).reset_index().drop(columns=["index"])
@@ -206,24 +195,13 @@ def four_eyes_principle(df,activites):
     filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites).reset_index().drop(columns=["index"])
     return filtered_log
 
-def eventually_follows_2(df,activities): 
-    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B(df,*activities)).reset_index().drop(columns=["index"])
-    return filtered_log
-
-def eventually_follows_3(df,activities):
-    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities)).reset_index().drop(columns=["index"])
-    return filtered_log
-
-def eventually_follows_4(df,activities):
-    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities)).reset_index().drop(columns=["index"])
+def eventually_follows(df,activities): 
+    filtered_log = ltl.ltl_checker.eventually_follows(df,activities).reset_index().drop(columns=["index"])
     return filtered_log
 
 def attribute_value_different_persons(df,activities):
-    
     filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
-    
     return filtered_log
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
