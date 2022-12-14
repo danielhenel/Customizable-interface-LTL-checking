@@ -158,7 +158,7 @@ def calc_result():
     global terms_dict
     global expression
     global result
-
+    result = None
     for terms in simplifyExpression(expression):
         temp = None
         for term in terms:
@@ -178,12 +178,12 @@ def calc_result():
                     temp = df_union(temp,eventually_follows(data,terms_dict[key][1]))
                 elif filterType == 'attribute_value_different_persons':
                     temp = df_union(temp,attribute_value_different_persons(data,terms_dict[key][1]))        
-        if result is None:
+        if result is None: 
             result = temp
         else:
             result = df_intersection(temp, result)
 
-    result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)   
+    result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
 
 def df_intersection(A, B):
     cols = list(A.columns)
