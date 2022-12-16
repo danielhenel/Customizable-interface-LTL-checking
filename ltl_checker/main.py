@@ -117,11 +117,13 @@ def checkFormat(df) -> bool:
         return True
     
 
+
 def renameColumns(columns_to_drop, columns_to_rename):
     # we define mandatory_columns as the columns the user cannot drop and therefore
     #ignore all selections of such columns
     global mandatory_columns
     global data
+
     mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
     #rename the dataframe by handing the rename function a dictionary
     data.rename(columns=columns_to_rename, inplace = True)
@@ -131,8 +133,9 @@ def renameColumns(columns_to_drop, columns_to_rename):
             pass
         else:
             data.drop(column, axis=1, inplace = True)
-    data = data.drop_duplicates(list(data.columns))
     return data
+
+
 
 def get_args(cnf_expr):
     cnf_str = str(cnf_expr)
@@ -228,6 +231,14 @@ def eventually_follows(df,activities):
 def attribute_value_different_persons(df,activities):
     filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
     return filtered_log
+
+
+def getKey(dict,value): 
+    for key, val in dict.items():
+        if val == value:
+            return key
+
+
 
 
 class FormatException(Exception):
