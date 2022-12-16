@@ -11,12 +11,14 @@ from sympy.abc import _clash1
 from sympy.core.sympify import sympify
 from sympy import *
 import pm4py.algo.filtering.pandas.ltl as ltl
+import csv
 
 data = None
 file = None
 expression = None
 terms_dict = None
 result = None
+mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
 
 app = Flask(__name__)
 
@@ -72,9 +74,17 @@ def upload():
         global file
         file = request.files['file']
         data = convertInput()
+        checkFormat(data)
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
         return render_template('error.html', message = 'Your data is empty!!!')
+    except csv.Error: 
+        return render_template('error.html', message = 'Your csv file is empty!!!')
+    except FileNotFoundError: 
+        return render_template('error.html', message = 'Your file could not be found!')
+    except FormatException:
+        return render_template('error.html', message = 'Your file looks weird ://')
+
 
 
 def convertInput():
@@ -92,6 +102,20 @@ def convertInput():
         return raw_log
     else: 
        raise Exception('File Wrong format or empty')
+
+
+def checkFormat(df) -> bool:
+    # check whether file has enough columns
+    column_features = list(df.columns.values)
+    if len(column_features) < len(mandatory_columns): 
+        raise FormatException(len(column_features))
+        return False
+    elif len(df.index) < 3: 
+        raise FormatException(len(df.index))
+        return False
+    else: 
+        return True
+    
 
 def renameColumns(columns_to_drop, columns_to_rename):
     # we define mandatory_columns as the columns the user cannot drop and therefore
@@ -204,6 +228,21 @@ def eventually_follows(df,activities):
 def attribute_value_different_persons(df,activities):
     filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
     return filtered_log
+
+
+class FormatException(Exception):
+        def __init__(self, param, message="The Format of your file is wrong!"):
+            self.param = param
+            self.message = message
+            super().__init__(self.message)
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
