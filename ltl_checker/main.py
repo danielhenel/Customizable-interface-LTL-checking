@@ -72,7 +72,6 @@ def upload():
         global file
         file = request.files['file']
         data = convertInput()
-        data.drop_duplicates(list(data.columns))
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
         return render_template('error.html', message = 'Your data is empty!!!')
@@ -108,25 +107,41 @@ def renameColumns(columns_to_drop, columns_to_rename):
             pass
         else:
             data.drop(column, axis=1, inplace = True)
+    data = data.drop_duplicates(list(data.columns))
     return data
 
+def get_args(cnf_expr):
+    cnf_str = str(cnf_expr)
+    if cnf_str.find("(") == -1:
+        if cnf_str.find("&") != -1:
+            return (cnf_expr.args,"&")
+        elif cnf_str.find("|") != -1:
+            return (tuple([cnf_expr]),"|")
+        else:
+            return ([cnf_expr],None)
+    else:
+        return (cnf_expr.args,None)
 
 def simplifyExpression(expr) -> list: #this function returns a list of all the conjunctively connected clauses in the filter expression
     #convert expression to CNF
     cnf = sp.to_cnf(expr, True)
-    if len(cnf.args) != 0:
-        # seperate different Clauses in CNF
-        clauses = cnf.args
-        clause_list = tupleToList(clauses)
-        #convert clauses in list to list of literals
-        for i in range(0,len(clause_list)):
-            if(len(clause_list[i].args) != 0):
+
+    # seperate different Clauses in CNF
+    clauses, operator = get_args(cnf)
+    clause_list = tupleToList(clauses)
+    #convert clauses in list to list of literals
+    for i in range(0,len(clause_list)):
+        if(len(clause_list[i].args) != 0):
+            clause_list[i] = tupleToList(clause_list[i].args)
+        else:
+            if operator == "&":
+                clause_list[i] = [clause_list[i]]
+            elif operator == "|":
                 clause_list[i] = tupleToList(clause_list[i].args)
             else:
                 clause_list[i] = [clause_list[i]]
-        return clause_list
-    else:
-        return [[cnf]]
+    return clause_list
+
 
 def tupleToList(tuple) -> list: 
     retList = []
@@ -134,89 +149,61 @@ def tupleToList(tuple) -> list:
         retList.append(element)
     return retList
 
-    
-
 def getActivities(): 
     global data
     return (data['concept:name'].unique()).tolist()
 
-def calc_result() -> pd.DataFrame:
+def calc_result():
     global data
     global terms_dict
     global expression
     global result
-
-    i = 0
+    result = None
     for terms in simplifyExpression(expression):
-        j = 0
         temp = None
         for term in terms:
             key = str(term)
             filterType = terms_dict[key][0]
-
-            if j == 0:
+            if temp is None:
                 if filterType == 'four_eyes_principle': 
                     temp = four_eyes_principle(data,terms_dict[key][1])
-                elif filterType == 'eventually_follows_2': 
-                    temp = eventually_follows_2(data,terms_dict[key][1])
-                elif filterType == 'eventually_follows_3': 
-                    temp = eventually_follows_3(data,terms_dict[key][1])
-                elif filterType == 'eventually_follows_4':
-                    temp = eventually_follows_4(data,terms_dict[key][1])
+                elif filterType in['eventually_follows_2', 'eventually_follows_3','eventually_follows_4']:
+                    temp = eventually_follows(data,terms_dict[key][1])
                 elif filterType == 'attribute_value_different_persons':
                     temp = attribute_value_different_persons(data,terms_dict[key][1])
             else:
                 if filterType == 'four_eyes_principle': 
                     temp = df_union(temp,four_eyes_principle(data,terms_dict[key][1]))
-                elif filterType == 'eventually_follows_2': 
-                    temp = df_union(temp,eventually_follows_2(data,terms_dict[key][1]))
-                elif filterType == 'eventually_follows_3': 
-                    temp = df_union(temp,eventually_follows_3(data,terms_dict[key][1]))
-                elif filterType == 'eventually_follows_4':
-                    temp = df_union(temp,eventually_follows_4(data,terms_dict[key][1]))
+                elif filterType in['eventually_follows_2', 'eventually_follows_3','eventually_follows_4']:
+                    temp = df_union(temp,eventually_follows(data,terms_dict[key][1]))
                 elif filterType == 'attribute_value_different_persons':
-                    temp = df_union(temp,attribute_value_different_persons(data,terms_dict[key][1]))
-        
-            j += 1
-        
-        if i == 0:
+                    temp = df_union(temp,attribute_value_different_persons(data,terms_dict[key][1]))        
+        if result is None: 
             result = temp
         else:
             result = df_intersection(temp, result)
-        
-        i+=1
 
-    result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)   
-
-
+    result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
 
 def df_intersection(A, B):
-    return pd.merge(A, B, how ='inner', on =list(A.columns)).reset_index().drop(columns=["index"])
+    cols = list(A.columns)
+    return pd.merge(A, B, how='inner', on=cols).reset_index().drop(columns=["index"])
 
 def df_union(A,B):
-    return pd.concat([A,B]).drop_duplicates(list(A.columns)).reset_index().drop(columns=["index"])
+    cols = list(A.columns)
+    return pd.concat([A,B]).drop_duplicates(cols).reset_index().drop(columns=["index"])
 
 def four_eyes_principle(df,activites):
     filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites).reset_index().drop(columns=["index"])
-    print(filtered_log)
     return filtered_log
 
-def eventually_follows_2(df,activities): 
-    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B(df,*activities)).reset_index().drop(columns=["index"])
-    return filtered_log
-
-def eventually_follows_3(df,activities):
-    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B_eventually_C(df,*activities)).reset_index().drop(columns=["index"])
-    return filtered_log
-
-def eventually_follows_4(df,activities):
-    filtered_log = pm4py.convert_to_dataframe(ltl.ltl_checker.A_eventually_B_eventually_C_eventually_D(df,*activities)).reset_index().drop(columns=["index"])
+def eventually_follows(df,activities): 
+    filtered_log = ltl.ltl_checker.eventually_follows(df,activities).reset_index().drop(columns=["index"])
     return filtered_log
 
 def attribute_value_different_persons(df,activities):
     filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
     return filtered_log
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

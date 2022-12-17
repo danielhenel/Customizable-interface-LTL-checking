@@ -419,7 +419,6 @@ function check_formula(){
     var rows = body.children
     var right = 0
     var left = 0
-    var different = true
 
     for(var i=1; i<rows.length; i++){
         var fields = rows[i].children
@@ -448,7 +447,6 @@ function check_formula(){
                 for(var l=0; l<attributes.length; l++){
                     if(k!=l){
                         if(attributes[k] == attributes[l]){
-                            different = false
                         }
                     }
                 }
@@ -456,7 +454,7 @@ function check_formula(){
         }
     }
 
-    if(left==right && different){
+    if(left==right){
         document.getElementById("nextButton").style.visibility = "visible";
     }
     else{
