@@ -17,6 +17,8 @@ file = None
 expression = None
 terms_dict = None
 result = None
+caseIDs = None
+
 
 app = Flask(__name__)
 
@@ -63,7 +65,16 @@ def goBackToSelectColumns():
 
 @app.route('/results',methods = ['POST','GET'])
 def results(): 
-    return render_template('results.html',data=json.dumps([result.head(6).to_json(),len(result.index)]))
+    global result
+    global caseIDs
+    page = request.args.get("page")
+    try:
+        page = int(page)
+        if page > 0 and page <= len(caseIDs):
+            return render_template('results.html',data=json.dumps([result.loc[result['Case ID'] == caseIDs[page-1]].reset_index().drop(columns=["index"]).to_json(),len(caseIDs),page]))
+    except:
+        pass
+
 
 @app.route('/selectColumns',methods = ['POST','GET'])
 def upload():
@@ -158,6 +169,8 @@ def calc_result():
     global terms_dict
     global expression
     global result
+    global caseIDs
+
     result = None
     for terms in simplifyExpression(expression):
         temp = None
@@ -184,6 +197,8 @@ def calc_result():
             result = df_intersection(temp, result)
 
     result.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
+    caseIDs = list(result['Case ID'].unique())
+    caseIDs.sort()
 
 def df_intersection(A, B):
     cols = list(A.columns)

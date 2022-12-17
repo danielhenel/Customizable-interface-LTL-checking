@@ -14,7 +14,7 @@ document.getElementById("nextButton").onclick = function(){
     fetch('/selectFilters/message', {
     method: 'POST',
     body: message
-    }).then(function(){window.location.replace('/results')})   
+    }).then(function(){window.location.replace('/results?page=1')})   
 }
 
 createFirstRow()

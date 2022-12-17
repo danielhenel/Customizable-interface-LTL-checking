@@ -3,9 +3,10 @@ loadDataFromFile(data)
 function loadDataFromFile(data){
 
     var data = JSON.parse(data)
-    numberOfRows = data[1]
+    maxPage = data[1]
+    currentPage = data[2]
     var number = document.getElementById("number")
-    number.insertAdjacentText('beforeend', numberOfRows)
+    number.insertAdjacentText('beforeend', currentPage + "/" + maxPage)
     data = JSON.parse(data[0])
 
     var column_names = Object.keys(data)
@@ -52,4 +53,19 @@ function loadDataFromFile(data){
 
     dataTable.appendChild(header)
     dataTable.appendChild(body)
+
+    dataHeight = document.getElementById("data").offsetHeight
+    additional = dataHeight + 300
+    document.getElementById("middle").style.height = additional.toString() + "px"
+    var prev = document.getElementById("prevPage")
+    if(currentPage > 1){prev.style.visibility = "visible"
+    prev.href = "/results?page=" + (currentPage - 1)}
+    else{prev.style.visibility = "hidden"}
+    var next = document.getElementById("nextPage")
+    if(currentPage < maxPage){
+        next.style.visibility = "visible"
+        next.href = "/results?page=" + (currentPage + 1)
+    }
+    else{next.style.visibility = "hidden"}
 }
+
