@@ -94,7 +94,7 @@ def convertInput():
         raw_log = pd.read_csv(file, sep = None, engine = 'python')
         return raw_log
     elif file.filename.endswith('.xes'): 
-        temp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'uploads','raw_log.xes') #temporarily save file for conversion
+        temp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'raw_log.xes') #temporarily save file for conversion
         file.save(temp_path)
         raw_log = pm4py.read_xes(temp_path)
         raw_log = pm4py.convert_to_dataframe(raw_log)
