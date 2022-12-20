@@ -208,17 +208,77 @@ def df_union(A,B):
     cols = list(A.columns)
     return pd.concat([A,B]).drop_duplicates(cols).reset_index().drop(columns=["index"])
 
-def four_eyes_principle(df,activites):
-    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites).reset_index().drop(columns=["index"])
+def four_eyes_principle(df,activities):
+    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activities).reset_index().drop(columns=["index"])
     return filtered_log
+
+def get_rows_of_deviation_four_eyes_principle(df,activity1, activity2):
+    filtered_log = ltl.ltl_checker.four_eyes_principle(df.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
+     "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}),activity1, activity2).reset_index().drop(columns=["index"])
+    if filtered_log.empty:
+        return None
+    else:
+        activities = list(filtered_log["concept:name"])
+        resources = list(filtered_log["org:resource"])
+        resource1 = None
+        resource2 = None
+        for i in range(len(activities)):
+            if resource1 is None and activities[i] == activity1:
+                resource1 = i
+            elif resource1 is not None and resource2 is None and activities[i] == activity2 and resources[i] != resources[resource1]:
+                resource2 = i
+        return [resource1 + 1,resource2 + 1]
+
 
 def eventually_follows(df,activities): 
     filtered_log = ltl.ltl_checker.eventually_follows(df,activities).reset_index().drop(columns=["index"])
     return filtered_log
 
+
+def get_rows_of_deviation_eventually_follows(df, params):
+    activity1 = activity2 = activity3 = activity4 = None
+    filtered_log = ltl.ltl_checker.eventually_follows(df.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
+     "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}),params).reset_index().drop(columns=["index"])
+    if filtered_log.empty:
+        return None
+    else:
+        result = []
+        activities = list(filtered_log["concept:name"])
+        for i in range(len(activities)):
+            if len(params)>=1 and activity1 is None and activities[i] == params[0]:
+                activity1 = i
+                result.append(activity1)
+            elif len(params)>=2 and activity2 is None and activity1 is not None and activities[i] == params[1]:
+                activity2 = i
+                result.append(activity2)
+            elif len(params)>=3 and activity3 is None and activity1 is not None and activity2 is not None and activities[i] == params[2]:
+                activity3 = i
+                result.append(activity3)
+            elif len(params)>=4 and activity4 is None and activity1 is not None and activity2 is not None and activity3 is not None and activities[i] == params[3]:
+                activity4 = i
+                result.append(activity4)
+        return [r+1 for r in result]
+
+
 def attribute_value_different_persons(df,activities):
     filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
     return filtered_log
+
+
+def get_rows_of_deviation_attribute_value_different_persons(df,activity):
+    filtered_log = ltl.ltl_checker.attr_value_different_persons(df, activity).reset_index().drop(columns=["index"])
+    if filtered_log.empty:
+        return None
+    else:
+        activities = list(filtered_log["concept:name"])
+        resources = list(filtered_log["org:resource"])
+        resource1 = resource2 = None
+        for i in range(len(activities)):
+            if resource1 is None and activities[i] == activity:
+                resource1 = i
+            elif resource1 is not None and resource2 is None and activities[i] == activity and resources[resource1] != resources[i]:
+                resource2 = i
+        return [resource1 + 1, resource2 + 1]
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
