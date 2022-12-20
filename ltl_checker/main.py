@@ -261,13 +261,13 @@ def get_rows_of_deviation_eventually_follows(df, params):
 
 
 def attribute_value_different_persons(df,activities):
-    filtered_log = ltl.ltl_checker.attr_value_different_persons(df.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
-     "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}), *activities).reset_index().drop(columns=["index"])
+    filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
     return filtered_log
 
 
 def get_rows_of_deviation_attribute_value_different_persons(df,activity):
-    filtered_log = ltl.ltl_checker.attr_value_different_persons(df, activity).reset_index().drop(columns=["index"])
+    filtered_log = ltl.ltl_checker.attr_value_different_persons(df.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
+     "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}), activity).reset_index().drop(columns=["index"])
     if filtered_log.empty:
         return None
     else:
