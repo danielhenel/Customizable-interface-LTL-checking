@@ -71,7 +71,8 @@ def results():
     try:
         page = int(page)
         if page > 0 and page <= len(caseIDs):
-            return render_template('results.html',data=json.dumps([result.loc[result['Case ID'] == caseIDs[page-1]].reset_index().drop(columns=["index"]).to_json(),len(caseIDs),page]))
+            df = result.loc[result['Case ID'] == caseIDs[page-1]].reset_index().drop(columns=["index"])
+            return render_template('results.html',data=json.dumps([df.to_json(),len(caseIDs),page,prepare_deviations_description(df)]))
     except:
         pass
 
@@ -227,7 +228,7 @@ def get_rows_of_deviation_four_eyes_principle(df,activity1, activity2):
                 resource1 = i
             elif resource1 is not None and resource2 is None and activities[i] == activity2 and resources[i] != resources[resource1]:
                 resource2 = i
-        return ([resource1 + 1,resource2 + 1], [resources[resource1], resources[resource2]])
+        return ([resource1,resource2], [resources[resource1], resources[resource2]])
 
 
 def eventually_follows(df,activities): 
@@ -257,7 +258,7 @@ def get_rows_of_deviation_eventually_follows(df, params):
             elif len(params)>=4 and activity4 is None and activity1 is not None and activity2 is not None and activity3 is not None and activities[i] == params[3]:
                 activity4 = i
                 result.append(activity4)
-        return ([r+1 for r in result],[activities[r] for r in result])
+        return ([result],[activities[r] for r in result])
 
 
 def attribute_value_different_persons(df,activities):
@@ -279,13 +280,14 @@ def get_rows_of_deviation_attribute_value_different_persons(df,activity):
                 resource1 = i
             elif resource1 is not None and resource2 is None and activities[i] == activity and resources[resource1] != resources[i]:
                 resource2 = i
-        return ([resource1 + 1, resource2 + 1],[resources[resource1],resources[resource2]])
+        return ([resource1, resource2],[resources[resource1],resources[resource2]])
 
 
 def prepare_deviations_description(df):
     global terms_dict
     
     messages = []
+    highlight_rows = set()
     for term, filter in terms_dict.items():
         filterType = filter[0]
         activities = filter[1]
@@ -293,19 +295,24 @@ def prepare_deviations_description(df):
         if filterType == 'four_eyes_principle':
             rows, resources = get_rows_of_deviation_four_eyes_principle(df,activities[0],activities[1])
             if rows is not None:
-                messages.append("Four eyes principle: The activities {0} and {1} have been performed by the different resources {2} and {3} (rows {4} and {5})".format(activities[0],activities[1],resources[0],resources[1],rows[0],rows[1]))
+                highlight_rows.update(rows)
+                messages.append(["Four eyes principle: The activities {0} and {1} have been performed by the different resources {2} and {3} (rows {4} and {5})".format(activities[0],activities[1],resources[0],resources[1],rows[0],rows[1]),rows])
 
         elif filterType in['eventually_follows_2', 'eventually_follows_3','eventually_follows_4']:
             rows, activities = get_rows_of_deviation_eventually_follows(df,activities)
             if rows is not None:
-                messages.append("Eventually follows: The sequence of the activities {0} occurs in rows {1}".format(activities,rows))
+                highlight_rows.update(rows)
+                messages.append(["Eventually follows: The sequence of the activities {0} occurs in rows {1}".format(activities,rows),rows])
 
         elif filterType == 'attribute_value_different_persons':
             rows, resources = get_rows_of_deviation_attribute_value_different_persons(df,activities[0])
             if rows is not None:
-                messages.append("Attribute value different persons: The activity {0} has been performed by the different resources {1} and {2} (rows {3} and {4})".format(activities[0],resources[0],resources[1],rows[0],rows[1]))
+                highlight_rows.update(rows)
+                messages.append(["Attribute value different persons: The activity {0} has been performed by the different resources {1} and {2} (rows {3} and {4})".format(activities[0],resources[0],resources[1],rows[0],rows[1]),rows])
 
-    return messages
+        highlight_rows = list(highlight_rows)
+        highlight_rows.sort()
+    return [messages, highlight_rows]
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

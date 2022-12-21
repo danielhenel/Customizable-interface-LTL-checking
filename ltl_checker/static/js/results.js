@@ -5,6 +5,10 @@ function loadDataFromFile(data){
     var data = JSON.parse(data)
     maxPage = data[1]
     currentPage = data[2]
+    deviations_description = data[3]
+    messages = deviations_description[0]
+    highlight_rows = deviations_description[1]
+    alert(highlight_rows)
     var number = document.getElementById("number")
     number.insertAdjacentText('beforeend', currentPage + "/" + maxPage)
     data = JSON.parse(data[0])
@@ -40,16 +44,16 @@ function loadDataFromFile(data){
                 headerRow.appendChild(headerItem)
             }
         }
-        else{
-            var bodyRow = document.createElement('tr');
-            body.appendChild(bodyRow)
-            for (var j = 0; j < col_number ; j++){ // for each column
-                bodyItem = document.createElement("td")
-                bodyItem.innerText = data[column_names[j]][i]
-                bodyRow.appendChild(bodyItem)
-            }
-        }
+        var bodyRow = document.createElement('tr');
+        body.appendChild(bodyRow)
+        for (var j = 0; j < col_number ; j++){ // for each column
+            bodyItem = document.createElement("td")
+            bodyItem.innerText = data[column_names[j]][i]
+            if(highlight_rows.includes(i)){bodyItem.style.color = "red"; bodyItem.style.fontWeight = "bold";}
+                
+            bodyRow.appendChild(bodyItem)
     }
+}
 
     dataTable.appendChild(header)
     dataTable.appendChild(body)
