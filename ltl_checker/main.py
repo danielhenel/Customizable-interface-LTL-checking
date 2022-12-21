@@ -216,7 +216,7 @@ def get_rows_of_deviation_four_eyes_principle(df,activity1, activity2):
     filtered_log = ltl.ltl_checker.four_eyes_principle(df.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
      "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}),activity1, activity2).reset_index().drop(columns=["index"])
     if filtered_log.empty:
-        return None
+        return (None,None)
     else:
         activities = list(filtered_log["concept:name"])
         resources = list(filtered_log["org:resource"])
@@ -227,7 +227,7 @@ def get_rows_of_deviation_four_eyes_principle(df,activity1, activity2):
                 resource1 = i
             elif resource1 is not None and resource2 is None and activities[i] == activity2 and resources[i] != resources[resource1]:
                 resource2 = i
-        return [resource1 + 1,resource2 + 1]
+        return ([resource1 + 1,resource2 + 1], [resources[resource1], resources[resource2]])
 
 
 def eventually_follows(df,activities): 
@@ -240,7 +240,7 @@ def get_rows_of_deviation_eventually_follows(df, params):
     filtered_log = ltl.ltl_checker.eventually_follows(df.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
      "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}),params).reset_index().drop(columns=["index"])
     if filtered_log.empty:
-        return None
+        return (None,None)
     else:
         result = []
         activities = list(filtered_log["concept:name"])
@@ -257,7 +257,7 @@ def get_rows_of_deviation_eventually_follows(df, params):
             elif len(params)>=4 and activity4 is None and activity1 is not None and activity2 is not None and activity3 is not None and activities[i] == params[3]:
                 activity4 = i
                 result.append(activity4)
-        return [r+1 for r in result]
+        return ([r+1 for r in result],[activities[r] for r in result])
 
 
 def attribute_value_different_persons(df,activities):
@@ -269,7 +269,7 @@ def get_rows_of_deviation_attribute_value_different_persons(df,activity):
     filtered_log = ltl.ltl_checker.attr_value_different_persons(df.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
      "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}), activity).reset_index().drop(columns=["index"])
     if filtered_log.empty:
-        return None
+        return (None,None)
     else:
         activities = list(filtered_log["concept:name"])
         resources = list(filtered_log["org:resource"])
@@ -279,7 +279,33 @@ def get_rows_of_deviation_attribute_value_different_persons(df,activity):
                 resource1 = i
             elif resource1 is not None and resource2 is None and activities[i] == activity and resources[resource1] != resources[i]:
                 resource2 = i
-        return [resource1 + 1, resource2 + 1]
+        return ([resource1 + 1, resource2 + 1],[resources[resource1],resources[resource2]])
+
+
+def prepare_deviations_description(df):
+    global terms_dict
+    
+    messages = []
+    for term, filter in terms_dict.items():
+        filterType = filter[0]
+        activities = filter[1]
+
+        if filterType == 'four_eyes_principle':
+            rows, resources = get_rows_of_deviation_four_eyes_principle(df,activities[0],activities[1])
+            if rows is not None:
+                messages.append("Four eyes principle: The activities {0} and {1} have been performed by the different resources {2} and {3} (rows {4} and {5})".format(activities[0],activities[1],resources[0],resources[1],rows[0],rows[1]))
+
+        elif filterType in['eventually_follows_2', 'eventually_follows_3','eventually_follows_4']:
+            rows, activities = get_rows_of_deviation_eventually_follows(df,activities)
+            if rows is not None:
+                messages.append("Eventually follows: The sequence of the activities {0} occurs in rows {1}".format(activities,rows))
+
+        elif filterType == 'attribute_value_different_persons':
+            rows, resources = get_rows_of_deviation_attribute_value_different_persons(df,activities[0])
+            if rows is not None:
+                messages.append("Attribute value different persons: The activity {0} has been performed by the different resources {1} and {2} (rows {3} and {4})".format(activities[0],resources[0],resources[1],rows[0],rows[1]))
+
+    return messages
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
