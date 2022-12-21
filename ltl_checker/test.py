@@ -87,7 +87,7 @@ class UploadtestCase(unittest.TestCase):
 
             self.assertTrue(bool, 'Wrong file format not recognized')
 
-
+#same functions as in main.py but with an extra parameter
 def renameColumns2(columns_to_drop, columns_to_rename,df):
     # we define mandatory_columns as the columns the user cannot drop and therefore
     #ignore all selections of such columns

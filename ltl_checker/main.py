@@ -124,6 +124,13 @@ def renameColumns(columns_to_drop, columns_to_rename):
     global mandatory_columns
     global data
 
+    cols = list(data.columns.values)
+    dict_keys = list(columns_to_rename.keys()) 
+    #the dict keys are the headers in the raw log and the values are the new names
+
+    #check whether we want to rename any column which does not exist
+    for element in cols
+
     mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
     #rename the dataframe by handing the rename function a dictionary
     data.rename(columns=columns_to_rename, inplace = True)
