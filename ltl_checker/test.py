@@ -1,9 +1,10 @@
 import unittest
 import pandas as pd
 import os
-from main import upload, convertInput, renameColumns, getActivities, calc_result, simplifyExpression
+from main import upload, convertInput, renameColumns, getActivities, calc_result, simplifyExpression, four_eyes_principle, eventually_follows, attribute_value_different_persons
 from main import file
 import pm4py
+
 
 cwd = os.getcwd()
 
@@ -39,13 +40,15 @@ class RenameColumns(unittest.TestCase):
     def testRenameColumns(self):
         file_path = os.path.join(cwd,'ltl_checker', 'test_input', 'detail_incident_activity.csv')   
         df = pd.read_csv(file_path)
-        
-        renameColumns(columns_to_drop, columns_to_rename, df)
+        renameColumns2(columns_to_drop, columns_to_rename, df)
+        columns_to_rename_vals = list(columns_to_rename.values())
         cols = list(df.columns)
-        for column in mandatory_columns:
+        for column in mandatory_columns:#check whether mandatory columns are in final dataframe
             self.assertIn(column, cols, msg=None)
-        for column in columns_to_drop:
+        for column in columns_to_drop:#check whether dropped columnsare excluded from final dataframe
             self.assertNotIn(columns_to_drop, cols, msg=None)
+        for column in columns_to_rename_vals: #check whether columns to be renamed are in final dataframe
+            self.assertIn(column, cols, msg=None)
 
 
 def isNotDuplicate(dataframe, activitiesList): 
@@ -60,8 +63,8 @@ class getActivitiesTestCase(unittest.TestCase):
     def testGetActivities(self):
         file_path = os.path.join(cwd,'ltl_checker', 'test_input', 'detail_incident_activity.csv')   
         df = pd.read_csv(file_path)
-        renameColumns(columns_to_drop, columns_to_rename, df)
-        self.assertTrue(isNotDuplicate(df, getActivities(df)))
+        renameColumns2(columns_to_drop, columns_to_rename, df)
+        self.assertTrue(isNotDuplicate(df, getActivities2(df)))
 
 
 
@@ -85,12 +88,75 @@ class UploadtestCase(unittest.TestCase):
 
             self.assertTrue(bool, 'Wrong file format not recognized')
 
+#same functions as in main.py but with an extra parameter
+def renameColumns2(columns_to_drop, columns_to_rename,df):
+    # we define mandatory_columns as the columns the user cannot drop and therefore
+    #ignore all selections of such columns
+
+    mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
+    #rename the dataframe by handing the rename function a dictionary
+    df.rename(columns=columns_to_rename, inplace = True)
+
+    for column in columns_to_drop:
+        if(column in mandatory_columns): 
+            pass
+        else:
+            df.drop(column, axis=1, inplace = True)
+    return df
+
+def getActivities2(df): 
+    return (df['concept:name'].unique()).tolist()
 
 
+class Four_eyes_principle(unittest.TestCase):
+    def testfour_eyes_principle(self):
+        file_path = os.path.join(cwd,'ltl_checker', 'test_input', 'detail_incident_activity.csv')   
+        df = pd.read_csv(file_path)
+
+        #expression = 'four_eyes_principle(df,["Open","Closed"])'
+
+        temp = four_eyes_principle(df,["Open","Closed"])
+        temp.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
+        self.assertIsInstance(temp, pd.DataFrame)
+        with self.assertRaises(ValueError):
+            four_eyes_principle(df, ["Closed"])
 
 
-
+class Eventually_follows(unittest.TestCase):
+    def testeventually_follows(self):
+        file_path = os.path.join(cwd,'ltl_checker', 'test_input', 'detail_incident_activity.csv')   
+        df = pd.read_csv(file_path)
+        
+        #expression = 'eventually_follows(df,["Update","Closed"])'
+        temp1 = eventually_follows(df,["Update","Closed"])
+        temp1.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
+        self.assertIsInstance(temp1, pd.DataFrame)
+        
+        #expression = 'eventually_follows(df,["Update","Reassignment","Closed"])'
+        temp2 = eventually_follows(df,["Update","Reassignment","Closed"])
+        temp2.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
+        self.assertIsInstance(temp2, pd.DataFrame)
+        
+        #expression = 'eventually_follows(df,["Open","Update","Reassignment","Closed"])'
+        temp3 = eventually_follows(df,["Open","Update","Reassignment","Closed"])
+        temp3.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
+        self.assertIsInstance(temp3, pd.DataFrame)
+        
+        with self.assertRaises(ValueError):
+            eventually_follows(df, ["Closed"])
             
+
+class Attribute_value_different_persons(unittest.TestCase):
+    def testattribute_value_different_persons(self):
+        file_path = os.path.join(cwd,'ltl_checker', 'test_input', 'detail_incident_activity.csv')   
+        df = pd.read_csv(file_path)
+        #expression = 'attribute_value_different_persons(df,["Update"])'
+        temp = attribute_value_different_persons(df,["Update"])
+        temp.rename(columns={"case:concept:name" : "Case ID", "concept:name" : "Activity Name", "time:timestamp" : "Time Stamp" , "org:resource" : "Resource"}, inplace = True)
+        self.assertIsInstance(temp, pd.DataFrame)
+        
+        with self.assertRaises(ValueError):
+            attribute_value_different_persons(df, ["Update"])
 
 if __name__ == '__main__':
     unittest.main()

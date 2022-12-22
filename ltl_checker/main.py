@@ -193,16 +193,22 @@ def df_union(A,B):
     cols = list(A.columns)
     return pd.concat([A,B]).drop_duplicates(cols).reset_index().drop(columns=["index"])
 
-def four_eyes_principle(df,activites):
-    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activites).reset_index().drop(columns=["index"])
+def four_eyes_principle(df,activities):
+    filtered_log = ltl.ltl_checker.four_eyes_principle(df,*activities).reset_index().drop(columns=["index"])
+    if len(activities)!=2:
+        raise ValueError("The filter requires exactly two parameters")
     return filtered_log
 
 def eventually_follows(df,activities): 
     filtered_log = ltl.ltl_checker.eventually_follows(df,activities).reset_index().drop(columns=["index"])
+    if len(activities)<2:
+        raise ValueError("The filter requires at least two parameters")
     return filtered_log
 
 def attribute_value_different_persons(df,activities):
     filtered_log = ltl.ltl_checker.attr_value_different_persons(df, *activities).reset_index().drop(columns=["index"])
+    if len(activities)!=1:
+        raise ValueError("The filter requires exactly one parameter")
     return filtered_log
 
 if __name__ == '__main__':
