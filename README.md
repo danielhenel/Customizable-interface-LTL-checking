@@ -26,6 +26,15 @@ drop certain columns from the raw data but also filter entries deviating from Li
 * Open the application in your browser<br>
 `localhost:5000`
 
+## How to run tests
+* Install requirements in your environment: pip install pandas, pm4py, sympy
+* Clone the reqository<br>
+`git clone https://git.rwth-aachen.de/teodora.staneva99/customizable_interface_ltl_checking.git`
+* Go to the ltl_checker directory<br>
+`cd customizable_interface_ltl_checking/ltl_checker`
+* Run unittests<br>
+`python -m unittest test`
+
 ## More Information
 More information about use cases, features and methodologies during our project can be found in the
 following documents: 
@@ -34,6 +43,7 @@ following documents:
 * [Requirements Engineering Document](./documentation/Requirements%20Engineering.pdf)
 * [Phase Review - Sprint 1](./documentation/Phase%20Review%20-%20Sprint%201.pdf)
 * [Phase Review - Sprint 2](./documentation/Phase%20Review%20-%20Sprint%202.pdf)
+* [Phase Review - Sprint 3](./documentation/Phase%20Review%20-%20Sprint%203.pdf)
 
 If there are any questions please feel free to get in touch with our communications manager
 [Mohamed](amine.kooli@rwth-aachen.de)
@@ -73,6 +83,22 @@ Our idea is described in the [/research/filter_combinations.ipynb](./research/fi
 
 * Help User Guide <br>
 ![](ltl_checker/static/images/user-guide.png)
+
+
+## Sprint 3
+### DONE:
+
+* The filtered log is presented so that there is a single page for each case ID and the rows with deviations are highlighted.<br>
+![](ltl_checker/static/images/deviations_1.png) <br>
+
+* The user can see details of the given deviation after clicking the highlighted row. (The first row has id 0).
+![](ltl_checker/static/images/deviations_2.png) <br>
+
+* The filtered log can be downloaded as CSV, XLSX, HTML or XES file <br>
+![](ltl_checker/static/images/download.png) <br>
+
+* 12 unit tests for important functions <br>
+![](ltl_checker/static/images/tests.png) <br>
 
 ## Documentation: 
 
