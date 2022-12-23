@@ -12,7 +12,6 @@ from sympy.core.sympify import sympify
 from sympy import *
 import pm4py.algo.filtering.pandas.ltl as ltl
 import csv
-import pdfkit
 
 data = None
 file = None

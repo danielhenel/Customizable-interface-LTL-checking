@@ -2,3 +2,4 @@ flask
 pandas
 pm4py
 simpy
+openpyxl
