@@ -61,7 +61,7 @@ def afterFilterSelection():
     expression = message[1]
     expression = sympify(expression,_clash1)
     calc_result()
-    return 
+    return "success"
 
 @app.route('/selectColumns2',methods = ['POST','GET'])
 def goBackToSelectColumns(): 
@@ -78,7 +78,7 @@ def results():
             df = result.loc[result['Case ID'] == caseIDs[page-1]].reset_index().drop(columns=["index"])
             return render_template('results.html',data=json.dumps([df.to_json(),len(caseIDs),page,prepare_deviations_description(df)]))
     except:
-        pass
+        return "success"
 
 
 @app.route('/selectColumns',methods = ['POST','GET'])
@@ -194,8 +194,7 @@ def renameColumns(columns_to_drop, columns_to_rename):
 def format_dataframe():
     global data
     # drop NaN
-    mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
-    data = data.dropna(set(mandatory_columns), how="any")
+    data = data.dropna()
     # convert timestamp
     data = convert_timestamp_columns_in_df(data)
     #sort dataframe
