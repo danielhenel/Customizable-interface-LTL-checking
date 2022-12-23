@@ -100,15 +100,35 @@ eventually_follows_3(param1,param2), eventually_follows_4(param1,param2) : helpe
 
 * renameColumns(columns_to_drop, columns_to_rename) <br> This function takes the user input from the columns selection page, where one can rename columns and select columns to drop. The output of this function is a dataframe with all the user's selections i.e. where all unwanted columns are omitted from the dataframe or renamed. 
 
-Parameters: 
+Parameters: <br>
 `columns_to_drop`: This parameter is a list of the column names from the raw log which should be excluded from the dataframe that will be filtered
 
 `columns_to_rename`: This parameter is a dictionary with a mapping of original column names and the intended name the user wants to change it to. 
 
 * getActivites(df) : returns the unique set of all activites of the dataframe passed to it.
 
+Parameters: <br>
+`df`:This parameter is the event_log from which we want to extract a list of activities
 
- 
+ ## Sprint 3
+
+ ## LTL Filters
+
+ * four_eyes_principle(df,activites)<br>
+ This function applies the four eyes principle filter to the data frame using the predefined function from the pm4py library. <br>
+
+  * eventually follows(df,activites)<br>
+ This function applies the eventually follows filter to the data frame using the predefined function from the pm4py library. <br>
+
+  * attribute_value_different_persons(df,activites)<br>
+ This function applies the attribute value different persons filter to the data frame using the predefined function from the pm4py library. <br>
+
+ Parameters: <br>
+
+ `df`: This is the dataframe/event _log which needs to be filtered <br>
+
+ `activities`: This is a list of the activities that are to be viewed as arguments of the filter functions. For example: for eventuallyfollows(A,B) would be executed by passing the list [A,B] as the activities parameter
+
 
 ## JS functions: file
 
