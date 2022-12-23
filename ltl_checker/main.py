@@ -102,7 +102,7 @@ def upload():
 @app.route("/getCSV")
 def getCSV():
     return Response(
-        result.head(500).to_csv(),
+        result.to_csv(),
         mimetype="text/csv",
         headers={"Content-disposition":
                  "attachment; filename=fitering-result.csv"})
@@ -111,7 +111,7 @@ def getCSV():
 @app.route("/getHTML")
 def getHTML():
     return Response(
-        result.head(500).to_html(),
+        result.to_html(),
         mimetype="text/html",
         headers={"Content-disposition":
                  "attachment; filename=fitering-result.html"})
@@ -119,7 +119,7 @@ def getHTML():
 
 @app.route("/getXES")
 def getXES():
-    log = pm4py.convert_to_event_log(result.head(500).rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
+    log = pm4py.convert_to_event_log(result.rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
      "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}))
     pm4py.write_xes(log, 'fitering-result.xes')
     return send_file('fitering-result.xes', as_attachment=True)
@@ -128,7 +128,7 @@ def getXES():
 @app.route("/getXLSX")
 def getXLSX():
     with pd.ExcelWriter("fitering-result.xlsx") as writer:
-        result.head(500).to_excel(writer, sheet_name="Filtered")
+        result.to_excel(writer, sheet_name="Filtered")
     return send_file('fitering-result.xlsx', as_attachment=True)
 
 
