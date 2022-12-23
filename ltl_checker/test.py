@@ -128,15 +128,12 @@ def renameColumns2(columns_to_drop, columns_to_rename,df):
 
 def getActivities2(df): 
     return (df['concept:name'].unique()).tolist()
-<<<<<<< HEAD
 
 def getRowsNumber(df) -> int:
     return len(df)
 
 def getColsNumber(df) -> int: 
     return len(list(df.columns))
-=======
->>>>>>> Amine_dev
 
 
 class Four_eyes_principle(unittest.TestCase):
@@ -153,8 +150,6 @@ class Four_eyes_principle(unittest.TestCase):
             four_eyes_principle(df, ["Closed"])
 
 
-<<<<<<< HEAD
-=======
 class Eventually_follows(unittest.TestCase):
     def testeventually_follows(self):
         file_path = os.path.join(cwd,'ltl_checker', 'test_input', 'detail_incident_activity.csv')   
@@ -190,7 +185,6 @@ class Attribute_value_different_persons(unittest.TestCase):
         
         with self.assertRaises(ValueError):
             attribute_value_different_persons(df, ["Update"])
->>>>>>> Amine_dev
 
 if __name__ == '__main__':
     unittest.main()
