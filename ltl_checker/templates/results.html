@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Custom style -->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/columns-selection.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/results.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main-styles.css')}}">
     <title>LTL Checker</title>
   </head>
@@ -140,7 +140,7 @@
       </div>
     </div>
     <!--end of popup 3 -->
-    <div class="container-fluid">
+    <div id="middle" class="container-fluid">
         <div class="row h-100">
             <div class="col-sm-2" id="leftCol">
               <button id="previousButton">
@@ -157,15 +157,24 @@
                     </div>
                   </div>
                   <div>
-                    <p>Number of rows in output: <span id="number"></span></p>
+                    <p><a id="prevPage" href="">&#171</a> <span id="number"></span> <a id="nextPage" href="">&#187</a> </p>
                   </div>
                 </div>
             </div>
             </div>
             <div class="col-sm-2" id="rightCol">
-              <button id="nextButton">
-                <img src="{{url_for('static', filename='images/next.png')}}" id="nextButtonImg">
-              </button>
+            <form action="/getCSV">
+              <input type="submit" value="Download CSV" />
+            </form>
+            <form action="/getHTML">
+              <input type="submit" value="Download HTML" />
+            </form>
+            <form action="/getXES">
+              <input type="submit" value="Download XES" />
+            </form>
+            <form action="/getXLSX">
+              <input type="submit" value="Download XLSX" />
+            </form>
             </div>
           </div>
       </div>      
