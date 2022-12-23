@@ -163,9 +163,18 @@
             </div>
             </div>
             <div class="col-sm-2" id="rightCol">
-              <button id="nextButton">
-                <img src="{{url_for('static', filename='images/next.png')}}" id="nextButtonImg">
-              </button>
+            <form action="/getCSV">
+              <input type="submit" value="Download CSV" />
+            </form>
+            <form action="/getHTML">
+              <input type="submit" value="Download HTML" />
+            </form>
+            <form action="/getXES">
+              <input type="submit" value="Download XES" />
+            </form>
+            <form action="/getXLSX">
+              <input type="submit" value="Download XLSX" />
+            </form>
             </div>
           </div>
       </div>      

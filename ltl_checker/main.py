@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import pm4py
-from flask import Flask, request, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, render_template, redirect, url_for, send_from_directory, Response, send_file
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import json
@@ -11,6 +11,7 @@ from sympy.abc import _clash1
 from sympy.core.sympify import sympify
 from sympy import *
 import pm4py.algo.filtering.pandas.ltl as ltl
+import pdfkit
 
 data = None
 file = None
@@ -87,6 +88,40 @@ def upload():
         return render_template('columns-selection.html',data=data.head(5).to_json())
     except pd.errors.EmptyDataError: 
         return render_template('error.html', message = 'Your data is empty!!!')
+
+
+@app.route("/getCSV")
+def getCSV():
+    return Response(
+        result.head(500).to_csv(),
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=fitering-result.csv"})
+    
+
+
+@app.route("/getHTML")
+def getHTML():
+    return Response(
+        result.head(500).to_html(),
+        mimetype="text/html",
+        headers={"Content-disposition":
+                 "attachment; filename=fitering-result.html"})
+
+
+@app.route("/getXES")
+def getXES():
+    log = pm4py.convert_to_event_log(result.head(500).rename(columns={"Case ID" : "case:concept:name","Activity Name":"concept:name", 
+     "Time Stamp" : "time:timestamp" , "Resource" : "org:resource"}))
+    pm4py.write_xes(log, 'fitering-result.xes')
+    return send_file('fitering-result.xes', as_attachment=True)
+
+
+@app.route("/getXLSX")
+def getXLSX():
+    with pd.ExcelWriter("fitering-result.xlsx") as writer:
+        result.head(500).to_excel(writer, sheet_name="Filtered")
+    return send_file('fitering-result.xlsx', as_attachment=True)
 
 
 def convertInput():
