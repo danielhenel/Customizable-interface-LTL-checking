@@ -1,5 +1,5 @@
 flask
 pandas
 pm4py
-simpy
+sympy
 openpyxl
