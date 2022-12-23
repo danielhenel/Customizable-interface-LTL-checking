@@ -258,10 +258,12 @@ def get_rows_of_deviation_four_eyes_principle(df,activity1, activity2):
         resources = list(filtered_log["org:resource"])
         resource1 = None
         resource2 = None
+        first = None
         for i in range(len(activities)):
-            if resource1 is None and activities[i] == activity1:
+            if resource1 is None and activities[i] in [activity1, activity2]:
                 resource1 = i
-            elif resource1 is not None and resource2 is None and activities[i] == activity2 and resources[i] != resources[resource1]:
+                first = activities[i]
+            elif resource1 is not None and resource2 is None and activities[i] in [activity1, activity2] and activities[i] != first and resources[i] != resources[resource1]:
                 resource2 = i
         return ([resource1,resource2], [resources[resource1], resources[resource2]])
 
@@ -293,7 +295,7 @@ def get_rows_of_deviation_eventually_follows(df, params):
             elif len(params)>=4 and activity4 is None and activity1 is not None and activity2 is not None and activity3 is not None and activities[i] == params[3]:
                 activity4 = i
                 result.append(activity4)
-        return ([result],[activities[r] for r in result])
+        return (result,[activities[r] for r in result])
 
 
 def attribute_value_different_persons(df,activities):
@@ -320,13 +322,11 @@ def get_rows_of_deviation_attribute_value_different_persons(df,activity):
 
 def prepare_deviations_description(df):
     global terms_dict
-    
     messages = []
     highlight_rows = set()
     for term, filter in terms_dict.items():
         filterType = filter[0]
         activities = filter[1]
-
         if filterType == 'four_eyes_principle':
             rows, resources = get_rows_of_deviation_four_eyes_principle(df,activities[0],activities[1])
             if rows is not None:
@@ -345,8 +345,8 @@ def prepare_deviations_description(df):
                 highlight_rows.update(rows)
                 messages.append(["Attribute value different persons: The activity {0} has been performed by the different resources {1} and {2} (rows {3} and {4})".format(activities[0],resources[0],resources[1],rows[0],rows[1]),rows])
 
-        highlight_rows = list(highlight_rows)
-        highlight_rows.sort()
+    highlight_rows = list(highlight_rows)
+    highlight_rows.sort()
     return [messages, highlight_rows]
 
 if __name__ == '__main__':
