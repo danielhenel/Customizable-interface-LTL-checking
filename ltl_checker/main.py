@@ -10,6 +10,7 @@ import sympy.abc
 from sympy.abc import _clash1
 from sympy.core.sympify import sympify
 from sympy import *
+from pm4py.objects.log.util.dataframe_utils import convert_timestamp_columns_in_df
 import pm4py.algo.filtering.pandas.ltl as ltl
 import csv
 
@@ -43,6 +44,7 @@ def afterColumnsSelection():
     drop_cols = message[0]
     new_names = message[1]
     renameColumns(drop_cols,new_names)
+    format_dataframe()
     return "success"
 
 @app.route('/selectFilters')
@@ -188,6 +190,16 @@ def renameColumns(columns_to_drop, columns_to_rename):
             data.drop(column, axis=1, inplace = True)
     return data
 
+
+def format_dataframe():
+    global data
+    # drop NaN
+    mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
+    data = data.dropna(set(mandatory_columns), how="any")
+    # convert timestamp
+    data = convert_timestamp_columns_in_df(data)
+    #sort dataframe
+    data = data.sort_values(["case:concept:name","time:timestamp" ])
 
 
 def get_args(cnf_expr):
