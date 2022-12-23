@@ -4,6 +4,8 @@ import os
 from main import upload, convertInput, renameColumns, getActivities, calc_result, simplifyExpression
 from main import file
 import pm4py
+import main as m
+
 
 cwd = os.getcwd()
 
@@ -66,6 +68,26 @@ class getActivitiesTestCase(unittest.TestCase):
         self.assertTrue(isNotDuplicate(df, getActivities2(df)))
 
 
+class convertInputTestcase(unittest.TestCase):
+    def testConvertInput(self):
+        legit_files = {"detail_incident_activity.csv" : (466737,7), "BPI_Challenge_2013_incidents.xes": (65533,12),"semicolons.csv" :(5,17) }
+        #We still have to replace the Error placeholders with the real placeholders but that can be done in the testing phase
+        bad_files = {"wrong_csv_3.csv" : "Error1", "NaN_values.csv": "Error2", "empty_csv.csv" : "Error3", "empty_xes.xes" : "Error4", "wrongInput.pdf": "Error5","wrong_xes_2.xes": "Error6"}
+        for check_file in legit_files:
+            m.file = open(os.path.join("test_input", check_file),"r")
+            m.file.filename = check_file
+            df = m.convertInput()
+            nrRows = getRowsNumber(df)
+            nrCols = getColsNumber(df)
+            row_col = (nrRows,nrCols)
+            expected = legit_files[check_file]
+            self.assertEquals(row_col,expected,"Data was lost during conversion")
+        for check_file in bad_files:
+            m.file = open(os.path.join("test_input", check_file),"r")
+            m.file.filename = check_file
+            current_error = bad_files[check_file]
+            self.assertRaises(current_error, m.convertInput())
+
 
 class UploadtestCase(unittest.TestCase): 
 
@@ -106,7 +128,15 @@ def renameColumns2(columns_to_drop, columns_to_rename,df):
 def getActivities2(df): 
     return (df['concept:name'].unique()).tolist()
 
-            
+def getRowsNumber(df) -> int:
+    return len(df)
+
+def getColsNumber(df) -> int: 
+    return len(list(df.columns))
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

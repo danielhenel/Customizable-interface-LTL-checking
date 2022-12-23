@@ -123,13 +123,14 @@ def renameColumns(columns_to_drop, columns_to_rename):
     #ignore all selections of such columns
     global mandatory_columns
     global data
-
     cols = list(data.columns.values)
-    dict_keys = list(columns_to_rename.keys()) 
-    #the dict keys are the headers in the raw log and the values are the new names
-
+    dict_keys = list(columns_to_rename.keys())#the dict keys are the headers in the raw log and the values are the new names
     #check whether we want to rename any column which does not exist
-    for element in cols
+    for element in dict_keys: 
+        if element not in cols: 
+            return render_template('error.html', message = 'You are renaming a non-existing column')
+        else: 
+            pass
 
     mandatory_columns = ["case:concept:name", "concept:name", "time:timestamp" , "org:resource"]
     #rename the dataframe by handing the rename function a dictionary
