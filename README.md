@@ -94,10 +94,16 @@ Our idea is described in the [/research/filter_combinations.ipynb](./research/fi
 
 * calcResult() <br> This function takes in 3 parameters: list_of_terms is basically what simplifyExpression() returns (a list of literals), dictionary contains the assignment of the keys (letters in our case) to their respective filter function, raw_log is an event log. The function creates dynamically variables for all keys in the dictionary that the sympy library can work with. The value type is a tuple, with the first component being the filter itself, and the second one the parameters for the filter. Then, the function iterates through the dictionary by the key component and checks what filter function should be called and applies the filter. Note that the basic pm4py filter functions take in the events explicitily, which is hard for us to encode. Rather, we defined helper functions "four_eyes_principle(param1, param2) ..." that are called in calcResult, which separate lists of activities into explicit activities, that are then passed to the pm4py filter functions. For each iteration through the for loop, the filtered raw_log is saved as an array entry, which is then combined to a final output as a dataframe. Note that in the final output all duplicate entries are omitted.
 
+
 * four_eyes_principle(param1, param2), eventually_follows_2(param1,param2)
 eventually_follows_3(param1,param2), eventually_follows_4(param1,param2) : helper functions, see explanation above.
 
-* renameColumns(param1, param2, param3) <br> This function takes in three parameters: param1 is a list of columns the client wishes to drop, the second one a list of columns the client wishes to change the names of, and the third one is a dataframe. We define a list of mandatory columns, which cannot be dropped (e.g. case id) where the names fit the standard of the pm4py library. Now, first, the dataframe's columns are automatically renamed to the standard names and the other columns to the name the client has entered. Then, in a for loop, the function drops all columns, making sure that none of the columns is one of the mandatory ones.
+* renameColumns(columns_to_drop, columns_to_rename) <br> This function takes the user input from the columns selection page, where one can rename columns and select columns to drop. The output of this function is a dataframe with all the user's selections i.e. where all unwanted columns are omitted from the dataframe or renamed. 
+
+Parameters: 
+`columns_to_drop`: This parameter is a list of the column names from the raw log which should be excluded from the dataframe that will be filtered
+
+`columns_to_rename`: This parameter is a dictionary with a mapping of original column names and the intended name the user wants to change it to. 
 
 * getActivites(df) : returns the unique set of all activites of the dataframe passed to it.
 
