@@ -27,7 +27,19 @@ app = Flask(__name__)
 
 @app.route('/')
 def start():
-   return render_template('upload.html') 
+    global data
+    data = None
+    global file
+    file = None
+    global expression
+    expression = None
+    global terms_dict
+    terms_dict = None
+    global result
+    result = None
+    global caseIDs
+    caseIDs = None
+    return render_template('upload.html') 
 
 @app.route('/aboutUs')
 def aboutUs():
@@ -72,6 +84,8 @@ def results():
     global result
     global caseIDs
     page = request.args.get("page")
+    if result.empty:
+        return render_template('error.html')
     try:
         page = int(page)
         if page > 0 and page <= len(caseIDs):
