@@ -195,8 +195,6 @@ def format_dataframe():
     global data
     # drop NaN
     data = data.dropna()
-    # convert timestamp
-    data = convert_timestamp_columns_in_df(data)
     #sort dataframe
     data = data.sort_values(["case:concept:name","time:timestamp" ])
 
